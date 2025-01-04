@@ -1,15 +1,46 @@
+let Ax = 220;
+let Ay = 200;
+let Bx = 120;
+let By = 300;
+let Cx = 320;
+let Cy = 260;
+let Dx = 330;
+let Dy = 350;
+
+function update(){
+    Ax = int(document.getElementById('Ax').value);
+    Ay = int(document.getElementById('Ay').value);
+    Bx = int(document.getElementById('Bx').value);
+    By = int(document.getElementById('By').value);
+    Cx = int(document.getElementById('Cx').value);
+    Cy = int(document.getElementById('Cy').value);
+    Dx = int(document.getElementById('Dx').value);
+    Dy = int(document.getElementById('Dy').value);
+}
+
 function setup() {
     // Canvasの設定
     createCanvas(600, 600);
     background(50);
+    document.getElementById('Ax').value = Ax;
+    document.getElementById('Ay').value = Ay;
+    document.getElementById('Bx').value = Bx;
+    document.getElementById('By').value = By;
+    document.getElementById('Cx').value = Cx;
+    document.getElementById('Cy').value = Cy;
+    document.getElementById('Dx').value = Dx;
+    document.getElementById('Dy').value = Dy;
 }
 
 function draw() {
+    clear();
+    background(50);
+
     // 点の座標をベクトルとして定義
-    let A = createVector(220, 200);
-    let B = createVector(120, 300);
-    let C = createVector(320, 260);
-    let D = createVector(330, 350);
+    let A = createVector(Ax, Ay);
+    let B = createVector(Bx, By);
+    let C = createVector(Cx, Cy);
+    let D = createVector(Dx, Dy);
 
     // 2点に接する円を定義
     let circle1 = calculateCircle(A, B)
