@@ -68,6 +68,11 @@ function draw() {
     let C = createVector(Cx, Cy);
     let D = createVector(Dx, Dy);
 
+    // let C = createVector(Ax, Ay);
+    // let D = createVector(Bx, By);
+    // let A = createVector(Cx, Cy);
+    // let B = createVector(Dx, Dy);
+
     // 2点に接する円を定義
     let circle1 = calculateCircle(A, B)
     let center1 = circle1.center;
@@ -92,6 +97,10 @@ function draw() {
     let { slope, intercept } = calculateSlopeAndIntercept(H, E);
     I = calculateCircleLineIntersection(center1, radius1, slope, intercept, E)
     J = calculateCircleLineIntersection(center2, radius2, slope, intercept, H)
+
+    let { minXPoint, maxXPoint } = findExtremeXPoints([I,J,E,H]);
+    I = maxXPoint;
+    J = minXPoint;
 
     // 第二の交点に接する円を定義
     let circle3 = calculateCircle(I, J)
@@ -142,8 +151,8 @@ function draw() {
 /**
  * 2点に接する円を作成
  *
- * @param {p5.Vector} p1 - 1つ目の点の座標を表すp5.Vectorオブジェクト。
- * @param {p5.Vector} p2 - 2つ目の点の座標を表すp5.Vectorオブジェクト。
+ * @param {p5.Vector} p1 - 1つ目の点の座標を表すp5.Vectorオブジェクト
+ * @param {p5.Vector} p2 - 2つ目の点の座標を表すp5.Vectorオブジェクト
  * @returns {{ center: p5.Vector, radius: number }} 
  * 2点に接する円の中心座標と半径を含むオブジェクト。
  * - `center`: 円の中心座標を表すp5.Vector。
@@ -198,6 +207,29 @@ function calculateSlopeAndIntercept(p1, p2) {
     return { slope, intercept }; // 傾きとy切片をオブジェクトで返す
 }
 
+/**
+ * 与えられた点のリストから最小および最大のx座標を持つ点を見つける
+ *
+ * @param {Array<{x: number, y: number}>} points - x座標とy座標を持つ点のオブジェクトの配列
+ * @returns {{ minXPoint: {x: number, y: number}, maxXPoint: {x: number, y: number} }} 
+ * - minXPoint: 最小のx座標を持つ点
+ * - maxXPoint: 最大のx座標を持つ点
+ */
+function findExtremeXPoints(points) {
+    let minXPoint = points[0];
+    let maxXPoint = points[0];
+
+    // 各点のx座標を比較して最小と最大の点を探す
+    for (let i = 1; i < points.length; i++) {
+      if (points[i].x < minXPoint.x) {
+        minXPoint = points[i];
+      }
+      if (points[i].x > maxXPoint.x) {
+        maxXPoint = points[i];
+      }
+    }
+    return { minXPoint, maxXPoint };
+}
 /**
  * 円と直線の交点を計算
  *
