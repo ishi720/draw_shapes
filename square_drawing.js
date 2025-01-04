@@ -11,18 +11,29 @@ function draw() {
     let C = createVector(300, 260);
     let D = createVector(300, 350);
 
-    // 点を赤で描画
-    fill("#f00");
-    noStroke();
-    circle(A.x, A.y, 10);
-    circle(B.x, B.y, 10);
-    circle(C.x, C.y, 10);
-    circle(D.x, D.y, 10);
+    // 点とラベルを赤で描画
+    draw_point(A, "A", "#f00");
+    draw_point(B, "B", "#f00");
+    draw_point(C, "C", "#f00");
+    draw_point(D, "D", "#f00");
+}
 
-    // ラベルを白で描画
+/***********************************************/
+/* 描画処理                                     */
+/***********************************************/
+
+/**
+ * 点とラベルを描画する
+ *
+ * @param {p5.Vector} p1 - 点の座標を表すp5.Vectorオブジェクト
+ * @param {string} t - 点に付けるラベルのテキスト
+ * @param {string} color - 点を描画する際の色（CSSカラーコードや色名を指定）
+ */
+function draw_point(p1, t, color) {
+    fill(color);
+    noStroke();
+    circle(p1.x, p1.y, 10);
+
     fill(255);
-    text("A", A.x + 10, A.y);
-    text("B", B.x + 10, B.y);
-    text("C", C.x + 10, C.y);
-    text("D", D.x + 10, D.y);
+    text(t, p1.x + 10, p1.y);
 }
