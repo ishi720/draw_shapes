@@ -11,22 +11,27 @@ function draw() {
     let C = createVector(300, 260);
     let D = createVector(300, 350);
 
+    // 2点に接する円を定義
+    let circle1 = calculateCircle(A, B)
+    let center1 = circle1.center;
+    let radius1 = circle1.radius;
+
+    let circle2 = calculateCircle(C, D)
+    let center2 = circle2.center;
+    let radius2 = circle2.radius;
+
+    // 2点に接する円を描画
+    draw_ellipse(center1, radius1, "#fff");
+    draw_ellipse(center2, radius2, "#fff");
+
     // 点とラベルを赤で描画
     draw_point(A, "A", "#f00");
     draw_point(B, "B", "#f00");
     draw_point(C, "C", "#f00");
     draw_point(D, "D", "#f00");
 
-    // 2点に接する円を描画
-    let circle1 = calculateCircle(A, B)
-    let center1 = circle1.center;
-    let radius1 = circle1.radius;
-    draw_ellipse(center1, radius1, "#fff");
 
-    let circle2 = calculateCircle(C, D)
-    let center2 = circle2.center;
-    let radius2 = circle2.radius;
-    draw_ellipse(center2, radius2, "#fff");
+
 }
 
 /***********************************************/
