@@ -70,8 +70,8 @@ function draw() {
     draw_point(H, "H", "#ff0");
     draw_point(I, "I", "#f0f");
     draw_point(J, "J", "#f0f");
-    draw_point(K, "I", "#f0f");
-    draw_point(L, "J", "#f0f");
+    draw_point(K, "K", "#f0f");
+    draw_point(L, "L", "#f0f");
 }
 
 /***********************************************/
