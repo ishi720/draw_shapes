@@ -40,7 +40,12 @@ function draw() {
     let circle3 = calculateCircle(I, J)
     let center3 = circle3.center;
     let radius3 = circle3.radius;
-    
+
+    // 垂直二等分線の交点を計算
+    let perpendicular3 = calculatePerpendicularEndpoints(center3, radius3, I);
+    let K = perpendicular3.p1;
+    let L = perpendicular3.p2
+
     // 円を描画
     draw_ellipse(center1, radius1, "#fff");
     draw_ellipse(center2, radius2, "#fff");
@@ -51,7 +56,8 @@ function draw() {
     // draw_straight_line(C, D, "#fff");
     // draw_straight_line(E, F, "#fff");
     // draw_straight_line(G, H, "#fff");
-    draw_straight_line(E, H, "#ff0");
+    draw_straight_line(E, H, "#f0f");
+    draw_straight_line(K, L, "#f0f");
 
     // 点とラベルを描画
     draw_point(A, "A", "#f00");
@@ -64,6 +70,8 @@ function draw() {
     draw_point(H, "H", "#ff0");
     draw_point(I, "I", "#f0f");
     draw_point(J, "J", "#f0f");
+    draw_point(K, "I", "#f0f");
+    draw_point(L, "J", "#f0f");
 }
 
 /***********************************************/
