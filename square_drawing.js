@@ -8,7 +8,7 @@ function draw() {
     // 点の座標をベクトルとして定義
     let A = createVector(220, 200);
     let B = createVector(120, 300);
-    let C = createVector(380, 260);
+    let C = createVector(320, 260);
     let D = createVector(330, 350);
 
     // 2点に接する円を定義
@@ -31,8 +31,12 @@ function draw() {
 
     // TODO: 垂直二等分線の交点のうち、2つの円の内側の点を判定する
 
+    // 直線と円の第二の交点
+    let { slope, intercept } = calculateSlopeAndIntercept(H, E);
+    I = calculateCircleLineIntersection(center1, radius1, slope, intercept, E)
+    J = calculateCircleLineIntersection(center2, radius2, slope, intercept, H)
 
-    // 2点に接する円を描画
+    // 円を描画
     draw_ellipse(center1, radius1, "#fff");
     draw_ellipse(center2, radius2, "#fff");
 
@@ -52,6 +56,8 @@ function draw() {
     draw_point(F, "F", "#ff0");
     draw_point(G, "G", "#ff0");
     draw_point(H, "H", "#ff0");
+    draw_point(I, "I", "#ff0");
+    draw_point(J, "J", "#ff0");
 }
 
 /***********************************************/
@@ -116,6 +122,46 @@ function calculateSlopeAndIntercept(p1, p2) {
     let intercept = p2.y - slope * p2.x; // y切片を計算
     return { slope, intercept }; // 傾きとy切片をオブジェクトで返す
 }
+
+/**
+ * 円と直線の交点を計算
+ *
+ * @param {p5.Vector} center - 円の中心座標を表すp5.Vectorオブジェクト
+ * @param {number} radius - 円の半径
+ * @param {number} slope - 直線の傾き
+ * @param {number} intercept - 直線の切片
+ * @param {p5.Vector} point - もともと計算して導き出した円の接点
+ * @returns {p5.Vector|null} 交点が見つかればp5.Vectorオブジェクト、見つからなければnull
+ */
+function calculateCircleLineIntersection(center, radius, slope, intercept, point) {
+    // 直線と円の交点
+    let a2 = 1 + slope * slope;
+    let b2 = 2 * (slope * (intercept - center.y) - center.x);
+    let c2 =
+      center.x * center.x +
+      (intercept - center.y) * (intercept - center.y) - 
+      radius * radius;
+  
+    // 判別式
+    let discriminant2 = b2 * b2 - 4 * a2 * c2;
+    let returnPoint = null;
+  
+    if (discriminant2 >= 0) {
+      let x2_1 = (-b2 + sqrt(discriminant2)) / (2 * a2);
+      let y2_1 = slope * x2_1 + intercept;
+      let x2_2 = (-b2 - sqrt(discriminant2)) / (2 * a2);
+      let y2_2 = slope * x2_2 + intercept;
+  
+      // 交点を描画
+      if (dist(x2_1, y2_1, point.x, point.y) > 5) {
+        returnPoint = createVector(x2_1, y2_1);
+      } else if (dist(x2_2, y2_2, point.x, point.y) > 5) {
+        returnPoint = createVector(x2_2, y2_2);
+      }
+    }
+    return returnPoint;
+}
+
 /***********************************************/
 /* 描画処理                                     */
 /***********************************************/
