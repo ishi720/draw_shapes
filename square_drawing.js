@@ -30,6 +30,32 @@ function setup() {
     document.getElementById('Cy').value = Cy;
     document.getElementById('Dx').value = Dx;
     document.getElementById('Dy').value = Dy;
+
+
+    document.getElementById('Ax').addEventListener('input', function(event) {
+        update();
+    });
+    document.getElementById('Ay').addEventListener('input', function(event) {
+        update();
+    });
+    document.getElementById('Bx').addEventListener('input', function(event) {
+        update();
+    });
+    document.getElementById('By').addEventListener('input', function(event) {
+        update();
+    });
+    document.getElementById('Cx').addEventListener('input', function(event) {
+        update();
+    });
+    document.getElementById('Cy').addEventListener('input', function(event) {
+        update();
+    });
+    document.getElementById('Dx').addEventListener('input', function(event) {
+        update();
+    });
+    document.getElementById('Dy').addEventListener('input', function(event) {
+        update();
+    });
 }
 
 function draw() {
