@@ -8,8 +8,8 @@ function draw() {
     // 点の座標をベクトルとして定義
     let A = createVector(220, 200);
     let B = createVector(120, 300);
-    let C = createVector(300, 260);
-    let D = createVector(300, 350);
+    let C = createVector(380, 260);
+    let D = createVector(330, 350);
 
     // 2点に接する円を定義
     let circle1 = calculateCircle(A, B)
@@ -29,9 +29,19 @@ function draw() {
     let G = perpendicular2.p1;
     let H = perpendicular2.p2
 
+    // TODO: 垂直二等分線の交点のうち、2つの円の内側の点を判定する
+
+
     // 2点に接する円を描画
     draw_ellipse(center1, radius1, "#fff");
     draw_ellipse(center2, radius2, "#fff");
+
+    // 直線を描画
+    // draw_straight_line(A, B, "#fff");
+    // draw_straight_line(C, D, "#fff");
+    // draw_straight_line(E, F, "#fff");
+    // draw_straight_line(G, H, "#fff");
+    draw_straight_line(E, H, "#ff0");
 
     // 点とラベルを描画
     draw_point(A, "A", "#f00");
@@ -120,4 +130,28 @@ function draw_ellipse(center, radius, color) {
     noFill();
     stroke(color);
     ellipse(center.x, center.y, radius * 2, radius * 2);
+}
+
+/**
+ * 2点を通る直線を描画
+ *
+ * @param {p5.Vector} p1 - 直線が通る点の座標
+ * @param {p5.Vector} p2 - 直線が通る点の座標
+ * @param {p5.Vector} color - 描画する色
+ */
+function draw_straight_line(p1, p2, color) {
+    // 2点を結ぶベクトルの方向を計算
+    // TODO: 直線が水平の場合Infinityになるため修正する
+    let direction = createVector(p1.x - p2.x, p1.y - p2.y);
+    let slope = direction.y / direction.x;
+    let intercept = p2.y - slope * p2.x;
+
+    // x座標が0（キャンバスの左端）のときのy座標を計算
+    let yStart = slope * 0 + intercept;
+    // x座標がwidth（キャンバスの右端）のときのy座標を計算
+    let yEnd = slope * width + intercept;
+  
+    // 線を描画
+    stroke(color);
+    line(0, yStart, width, yEnd);
 }
