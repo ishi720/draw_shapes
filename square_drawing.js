@@ -97,8 +97,25 @@ function calculatePerpendicularEndpoints(center, radius, point) {
 
     return { p1, p2 };
 }
-
-
+/**
+ * 2点からベクトルの傾きとy切片を計算
+ *
+ * @param {Object} p1 - 1つ目の点
+ * @param {Object} p2 - 2つ目の点
+ * @returns {Object} 次のプロパティを持つオブジェクトを返します：
+ *  - `slope` {number}: 直線の傾き。直線が垂直の場合はInfinity
+ *  - `intercept` {number}: y切片。直線が垂直の場合はx座標
+ */
+function calculateSlopeAndIntercept(p1, p2) {
+    // x座標が同じ場合（垂直線）
+    if (p1.x === p2.x) {
+        return { slope: Infinity, intercept: p1.x }; // 傾きはInfinity、y切片はx座標
+    }
+    let direction = createVector(p1.x - p2.x, p1.y - p2.y); // ベクトル方向を求める
+    let slope = direction.y / direction.x; // 傾きを計算
+    let intercept = p2.y - slope * p2.x; // y切片を計算
+    return { slope, intercept }; // 傾きとy切片をオブジェクトで返す
+}
 /***********************************************/
 /* 描画処理                                     */
 /***********************************************/
@@ -141,10 +158,14 @@ function draw_ellipse(center, radius, color) {
  */
 function draw_straight_line(p1, p2, color) {
     // 2点を結ぶベクトルの方向を計算
-    // TODO: 直線が水平の場合Infinityになるため修正する
-    let direction = createVector(p1.x - p2.x, p1.y - p2.y);
-    let slope = direction.y / direction.x;
-    let intercept = p2.y - slope * p2.x;
+    let { slope, intercept } = calculateSlopeAndIntercept(p1, p2);
+
+    // 傾きが無限大の場合（垂直線）
+    if (slope === Infinity) {
+        stroke(color);
+        line(intercept, 0, intercept, height);
+        return;
+    }
 
     // x座標が0（キャンバスの左端）のときのy座標を計算
     let yStart = slope * 0 + intercept;
