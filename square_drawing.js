@@ -36,9 +36,15 @@ function draw() {
     I = calculateCircleLineIntersection(center1, radius1, slope, intercept, E)
     J = calculateCircleLineIntersection(center2, radius2, slope, intercept, H)
 
+    // 第二の交点に接する円を定義
+    let circle3 = calculateCircle(I, J)
+    let center3 = circle3.center;
+    let radius3 = circle3.radius;
+    
     // 円を描画
     draw_ellipse(center1, radius1, "#fff");
     draw_ellipse(center2, radius2, "#fff");
+    draw_ellipse(center3, radius3, "#f0f");
 
     // 直線を描画
     // draw_straight_line(A, B, "#fff");
@@ -56,8 +62,8 @@ function draw() {
     draw_point(F, "F", "#ff0");
     draw_point(G, "G", "#ff0");
     draw_point(H, "H", "#ff0");
-    draw_point(I, "I", "#ff0");
-    draw_point(J, "J", "#ff0");
+    draw_point(I, "I", "#f0f");
+    draw_point(J, "J", "#f0f");
 }
 
 /***********************************************/
