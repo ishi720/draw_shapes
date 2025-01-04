@@ -72,6 +72,10 @@ function draw() {
     draw_point(J, "J", "#f0f");
     draw_point(K, "K", "#f0f");
     draw_point(L, "L", "#f0f");
+
+    // 四角形を描画
+    draw_rect(I, K, J, L, "#f00");
+    endShape(CLOSE);
 }
 
 /***********************************************/
@@ -235,4 +239,14 @@ function draw_straight_line(p1, p2, color) {
     // 線を描画
     stroke(color);
     line(0, yStart, width, yEnd);
+}
+
+function draw_rect(p1, p2, p3, p4, color) {
+    noFill();
+    stroke(color);
+    beginShape();
+    vertex(p1.x, p1.y);
+    vertex(p2.x, p2.y);
+    vertex(p3.x, p3.y);
+    vertex(p4.x, p4.y);
 }
