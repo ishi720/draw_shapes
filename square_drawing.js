@@ -53,6 +53,7 @@ function draw() {
     background(50);
 
     if (isAutoMove) {
+
         // 点Aの位置を更新
         points.Ax += velocityA.vx;
         points.Ay += velocityA.vy;
@@ -102,11 +103,6 @@ function draw() {
     let B = createVector(points.Bx, points.By);
     let C = createVector(points.Cx, points.Cy);
     let D = createVector(points.Dx, points.Dy);
-
-    // let C = createVector(points.Ax, points.Ay);
-    // let D = createVector(points.Bx, points.By);
-    // let A = createVector(points.Cx, points.Cy);
-    // let B = createVector(points.Dx, points.Dy);
 
     // 2点に接する円を定義
     let center1 = calculateMidpoint(A, B);
@@ -172,7 +168,7 @@ function draw() {
         draw_ellipse(center3, radius3, "#f0f");
 
         // 直線を描画
-        draw_straight_line(K, L, "#f0f");
+        // draw_straight_line(K, L, "#f0f");
 
         // 点とラベルを描画
         draw_point(I, "I", "#f0f");
@@ -319,6 +315,7 @@ function findExtremeXPoints(points) {
     }
     return { minXPoint, maxXPoint };
 }
+
 /**
  * 円と直線の交点を計算
  *
@@ -391,6 +388,7 @@ function isPointOnRectangle(point, p1, p2, p3, p4) {
         isPointOnLineSegment(p4, p1, point)
     );
 }
+
 
 /***********************************************/
 /* 描画処理                                     */
