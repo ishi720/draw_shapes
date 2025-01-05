@@ -240,8 +240,6 @@ function draw() {
         draw_point(S, "S", "#0f0");
         draw_point(T, "T", "#0f0");
 
-        draw_rect(Q, S, R, T, "#0F0");
-
         if (
             isPointOnRectangle(A, Q, S, R, T) && 
             isPointOnRectangle(B, Q, S, R, T) &&
@@ -250,6 +248,73 @@ function draw() {
         ) {
             // 四角形を描画
             draw_rect(Q, S, R, T, "#0f0");
+            endShape(CLOSE);
+        }
+    }
+
+    // 3つ目
+    let center7 = calculateMidpoint(A, D);
+    let radius7 = calculateRadius(A, D);
+
+    let center8 = calculateMidpoint(B, C);
+    let radius8 = calculateRadius(B, C);
+
+    let perpendicular5 = calculatePerpendicularEndpoints(center7, radius7, A);
+    let U = perpendicular5.p1;
+    let V = perpendicular5.p2;
+
+    let perpendicular6 = calculatePerpendicularEndpoints(center8, radius8, B);
+    let W = perpendicular6.p1;
+    let X = perpendicular6.p2;
+
+    // 直線と円の第二の交点
+    let nearPoint5 = findClosestPoint(center5, U, V);
+    let nearPoint6 = findClosestPoint(center4, W, X);
+
+    let bbbbb = calculateSlopeAndIntercept(nearPoint5, nearPoint6);
+    let Z = calculateCircleLineIntersection(center7, radius7, bbbbb.slope, bbbbb.intercept, nearPoint5);
+    let AA = calculateCircleLineIntersection(center8, radius8, bbbbb.slope, bbbbb.intercept, nearPoint6);
+
+    draw_ellipse(center7, radius7, "#fff");
+    draw_ellipse(center8, radius8, "#fff");
+    draw_straight_line(nearPoint5, nearPoint6, "#ff0");
+
+
+    if (Z && AA) {
+        let eeeee = findExtremeXPoints([Z,AA,V,X]);
+        Z = eeeee.maxXPoint;
+        AA = eeeee.minXPoint;
+
+        // 第二の交点に接する円を定義
+        let center9 = calculateMidpoint(Z, AA);
+        let radius9 = calculateRadius(Z, AA);
+
+        // 垂直二等分線の交点を計算
+        let perpendicular9 = calculatePerpendicularEndpoints(center9, radius9, Z);
+        let BB = perpendicular9.p1;
+        let CC = perpendicular9.p2;
+    
+        // 円を描画
+        draw_ellipse(center9, radius9, "#00f");
+
+        draw_point(U, "U", "#ff0");
+        draw_point(V, "V", "#ff0");
+        draw_point(W, "W", "#ff0");
+        draw_point(X, "X", "#ff0");
+        draw_point(Z, "Z", "#0f0");
+        draw_point(AA, "AA", "#0f0");
+        draw_point(BB, "BB", "#0f0");
+        draw_point(CC, "CC", "#0f0");
+
+
+        if (
+            isPointOnRectangle(A, Z, BB, AA, CC) && 
+            isPointOnRectangle(B, Z, BB, AA, CC) &&
+            isPointOnRectangle(C, Z, BB, AA, CC) &&
+            isPointOnRectangle(D, Z, BB, AA, CC)
+        ) {
+            // 四角形を描画
+            draw_rect(Z, BB, AA, CC, "#00f");
             endShape(CLOSE);
         }
     }
