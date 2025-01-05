@@ -71,21 +71,18 @@ function draw() {
         if (points.Ay > height || points.Ay < 0) {
             velocityA.vy *= -1;
         }
-        // 境界で跳ね返る処理
         if (points.Bx > width || points.Bx < 0) {
             velocityB.vx *= -1; 
         }
         if (points.By > height || points.By < 0) {
             velocityB.vy *= -1;
         }
-        // 境界で跳ね返る処理
         if (points.Cx > width || points.Cx < 0) {
             velocityC.vx *= -1; 
         }
         if (points.Cy > height || points.Cy < 0) {
             velocityC.vy *= -1;
         }
-        // 境界で跳ね返る処理
         if (points.Dx > width || points.Dx < 0) {
             velocityD.vx *= -1; 
         }
@@ -114,11 +111,11 @@ function draw() {
     // 垂直二等分線の交点を計算
     let perpendicular1 = calculatePerpendicularEndpoints(center1, radius1, A);
     let E = perpendicular1.p1;
-    let F = perpendicular1.p2
+    let F = perpendicular1.p2;
     
     let perpendicular2 = calculatePerpendicularEndpoints(center2, radius2, C);
     let G = perpendicular2.p1;
-    let H = perpendicular2.p2
+    let H = perpendicular2.p2;
 
     // 直線と円の第二の交点
     let nearPoint1 = findClosestPoint(center2, E, F);
@@ -162,7 +159,7 @@ function draw() {
         // 垂直二等分線の交点を計算
         let perpendicular3 = calculatePerpendicularEndpoints(center3, radius3, I);
         let K = perpendicular3.p1;
-        let L = perpendicular3.p2
+        let L = perpendicular3.p2;
 
         // 円を描画
         draw_ellipse(center3, radius3, "#f0f");
