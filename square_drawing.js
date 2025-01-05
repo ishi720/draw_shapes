@@ -20,7 +20,6 @@ function changeIsAutoMove() {
     isAutoMove = !isAutoMove;
 }
 
-
 function update() {
     for (let key in points) {
         points[key] = parseInt(document.getElementById(key).value);
@@ -99,13 +98,11 @@ function draw() {
     // let B = createVector(points.Dx, points.Dy);
 
     // 2点に接する円を定義
-    let circle1 = calculateCircle(A, B)
-    let center1 = circle1.center;
-    let radius1 = circle1.radius;
+    let center1 = calculateMidpoint(A, B);
+    let radius1 = calculateRadius(A, B);
 
-    let circle2 = calculateCircle(C, D)
-    let center2 = circle2.center;
-    let radius2 = circle2.radius;
+    let center2 = calculateMidpoint(C, D);
+    let radius2 = calculateRadius(C, D);
 
     // 垂直二等分線の交点を計算
     let perpendicular1 = calculatePerpendicularEndpoints(center1, radius1, A);
@@ -151,9 +148,8 @@ function draw() {
         J = minXPoint;
 
         // 第二の交点に接する円を定義
-        let circle3 = calculateCircle(I, J)
-        let center3 = circle3.center;
-        let radius3 = circle3.radius;
+        let center3 = calculateMidpoint(I, J);
+        let radius3 = calculateRadius(I, J);
 
         // 垂直二等分線の交点を計算
         let perpendicular3 = calculatePerpendicularEndpoints(center3, radius3, I);
@@ -190,19 +186,28 @@ function draw() {
 /***********************************************/
 
 /**
- * 2点に接する円を作成
+ * 2点間の中点を計算
  *
  * @param {p5.Vector} p1 - 1つ目の点の座標を表すp5.Vectorオブジェクト
  * @param {p5.Vector} p2 - 2つ目の点の座標を表すp5.Vectorオブジェクト
- * @returns {{ center: p5.Vector, radius: number }} 
- * 2点に接する円の中心座標と半径を含むオブジェクト。
- * - `center`: 円の中心座標を表すp5.Vector。
- * - `radius`: 円の半径を表す数値。
+ * @returns {p5.Vector} 2点間の中点を表すp5.Vectorオブジェクト
  */
-function calculateCircle(p1, p2) {
-    let center = createVector((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
-    let radius = dist(p1.x, p1.y, p2.x, p2.y) / 2;
-    return { center, radius };
+function calculateMidpoint(p1, p2) {
+    let x_c = (p1.x + p2.x) / 2;
+    let y_c = (p1.y + p2.y) / 2;
+    return createVector(x_c, y_c);
+}
+
+/**
+ * 2点間の距離（半径）を計算
+ *
+ * @param {p5.Vector} p1 - 1つ目の点の座標を表すp5.Vectorオブジェクト
+ * @param {p5.Vector} p2 - 2つ目の点の座標を表すp5.Vectorオブジェクト
+ * @returns {number} 2点間の距離（半径）
+ */
+function calculateRadius(p1, p2) {
+    let distance = dist(p1.x, p1.y, p2.x, p2.y);
+    return distance / 2;
 }
 
 /**
@@ -406,7 +411,6 @@ function draw_straight_line(p1, p2, color) {
 }
 
 function draw_rect(p1, p2, p3, p4, color) {
-    // noFill();
     fill(255, 0, 0, 100);
     stroke(color);
     beginShape();
