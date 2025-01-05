@@ -9,6 +9,18 @@ let points = {
     Dy: 350
 };
 
+let velocityA = { vx: 2, vy: 3 };
+let velocityB = { vx: 4, vy: 1 };
+let velocityC = { vx: -1, vy: 2 };
+let velocityD = { vx: 1, vy: 2 };
+
+let isAutoMove = false;
+
+function changeIsAutoMove() {
+    isAutoMove = !isAutoMove;
+}
+
+
 function update() {
     for (let key in points) {
         points[key] = parseInt(document.getElementById(key).value);
@@ -30,6 +42,51 @@ function draw() {
     clear();
     background(50);
 
+    if (isAutoMove) {
+        // 点Aの位置を更新
+        points.Ax += velocityA.vx;
+        points.Ay += velocityA.vy;
+        points.Bx += velocityB.vx;
+        points.By += velocityB.vy;
+        points.Cx += velocityC.vx;
+        points.Cy += velocityC.vy;
+        points.Dx += velocityD.vx;
+        points.Dy += velocityD.vy;
+
+        // 境界で跳ね返る処理
+        if (points.Ax > width || points.Ax < 0) {
+            velocityA.vx *= -1; 
+        }
+        if (points.Ay > height || points.Ay < 0) {
+            velocityA.vy *= -1;
+        }
+        // 境界で跳ね返る処理
+        if (points.Bx > width || points.Bx < 0) {
+            velocityB.vx *= -1; 
+        }
+        if (points.By > height || points.By < 0) {
+            velocityB.vy *= -1;
+        }
+        // 境界で跳ね返る処理
+        if (points.Cx > width || points.Cx < 0) {
+            velocityC.vx *= -1; 
+        }
+        if (points.Cy > height || points.Cy < 0) {
+            velocityC.vy *= -1;
+        }
+        // 境界で跳ね返る処理
+        if (points.Dx > width || points.Dx < 0) {
+            velocityD.vx *= -1; 
+        }
+        if (points.Dy > height || points.Dy < 0) {
+            velocityD.vy *= -1;
+        }
+
+        for (let key in points) {
+            let input = document.getElementById(key);
+            input.value = points[key];
+        }
+    }
     // 点の座標をベクトルとして定義
     let A = createVector(points.Ax, points.Ay);
     let B = createVector(points.Bx, points.By);
