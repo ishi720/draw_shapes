@@ -63,27 +63,12 @@ function draw() {
 
     // 直線と円の第二の交点
     let { slope, intercept } = calculateSlopeAndIntercept(H, E);
-    I = calculateCircleLineIntersection(center1, radius1, slope, intercept, E)
-    J = calculateCircleLineIntersection(center2, radius2, slope, intercept, H)
-
-    let { minXPoint, maxXPoint } = findExtremeXPoints([I,J,E,H]);
-    I = maxXPoint;
-    J = minXPoint;
-
-    // 第二の交点に接する円を定義
-    let circle3 = calculateCircle(I, J)
-    let center3 = circle3.center;
-    let radius3 = circle3.radius;
-
-    // 垂直二等分線の交点を計算
-    let perpendicular3 = calculatePerpendicularEndpoints(center3, radius3, I);
-    let K = perpendicular3.p1;
-    let L = perpendicular3.p2
+    I = calculateCircleLineIntersection(center1, radius1, slope, intercept, E);
+    J = calculateCircleLineIntersection(center2, radius2, slope, intercept, H);
 
     // 円を描画
     draw_ellipse(center1, radius1, "#fff");
     draw_ellipse(center2, radius2, "#fff");
-    draw_ellipse(center3, radius3, "#f0f");
 
     // 直線を描画
     // draw_straight_line(A, B, "#fff");
@@ -91,7 +76,6 @@ function draw() {
     // draw_straight_line(E, F, "#fff");
     // draw_straight_line(G, H, "#fff");
     draw_straight_line(E, H, "#f0f");
-    draw_straight_line(K, L, "#f0f");
 
     // 点とラベルを描画
     draw_point(A, "A", "#f00");
@@ -102,14 +86,39 @@ function draw() {
     draw_point(F, "F", "#ff0");
     draw_point(G, "G", "#ff0");
     draw_point(H, "H", "#ff0");
-    draw_point(I, "I", "#f0f");
-    draw_point(J, "J", "#f0f");
-    draw_point(K, "K", "#f0f");
-    draw_point(L, "L", "#f0f");
 
-    // 四角形を描画
-    draw_rect(I, K, J, L, "#f00");
-    endShape(CLOSE);
+
+    if (I && J) {
+        let { minXPoint, maxXPoint } = findExtremeXPoints([I,J,E,H]);
+        I = maxXPoint;
+        J = minXPoint;
+
+        // 第二の交点に接する円を定義
+        let circle3 = calculateCircle(I, J)
+        let center3 = circle3.center;
+        let radius3 = circle3.radius;
+
+        // 垂直二等分線の交点を計算
+        let perpendicular3 = calculatePerpendicularEndpoints(center3, radius3, I);
+        let K = perpendicular3.p1;
+        let L = perpendicular3.p2
+
+        // 円を描画
+        draw_ellipse(center3, radius3, "#f0f");
+
+        // 直線を描画
+        draw_straight_line(K, L, "#f0f");
+
+        // 点とラベルを描画
+        draw_point(I, "I", "#f0f");
+        draw_point(J, "J", "#f0f");
+        draw_point(K, "K", "#f0f");
+        draw_point(L, "L", "#f0f");
+
+        // 四角形を描画
+        draw_rect(I, K, J, L, "#f00");
+        endShape(CLOSE);
+    }
 }
 
 /***********************************************/
@@ -189,12 +198,12 @@ function findExtremeXPoints(points) {
 
     // 各点のx座標を比較して最小と最大の点を探す
     for (let i = 1; i < points.length; i++) {
-      if (points[i].x < minXPoint.x) {
-        minXPoint = points[i];
-      }
-      if (points[i].x > maxXPoint.x) {
-        maxXPoint = points[i];
-      }
+        if (points[i].x < minXPoint.x) {
+            minXPoint = points[i];
+        }
+        if (points[i].x > maxXPoint.x) {
+            maxXPoint = points[i];
+        }
     }
     return { minXPoint, maxXPoint };
 }
