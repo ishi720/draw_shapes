@@ -126,7 +126,7 @@ function draw() {
 
     // 直線と円の第二の交点
     let nearPoint1 = findClosestPoint(center2, E, F);
-    let nearPoint2 = findClosestPoint(center2, G, H);
+    let nearPoint2 = findClosestPoint(center1, G, H);
     
     let { slope, intercept } = calculateSlopeAndIntercept(nearPoint1, nearPoint2);
     I = calculateCircleLineIntersection(center1, radius1, slope, intercept, nearPoint1);
