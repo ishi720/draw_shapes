@@ -1,61 +1,29 @@
-let Ax = 220;
-let Ay = 200;
-let Bx = 120;
-let By = 300;
-let Cx = 320;
-let Cy = 260;
-let Dx = 330;
-let Dy = 350;
+let points = {
+    Ax: 220,
+    Ay: 200,
+    Bx: 120,
+    By: 300,
+    Cx: 320,
+    Cy: 260,
+    Dx: 330,
+    Dy: 350
+};
 
-function update(){
-    Ax = int(document.getElementById('Ax').value);
-    Ay = int(document.getElementById('Ay').value);
-    Bx = int(document.getElementById('Bx').value);
-    By = int(document.getElementById('By').value);
-    Cx = int(document.getElementById('Cx').value);
-    Cy = int(document.getElementById('Cy').value);
-    Dx = int(document.getElementById('Dx').value);
-    Dy = int(document.getElementById('Dy').value);
+function update() {
+    for (let key in points) {
+        points[key] = parseInt(document.getElementById(key).value);
+    }
 }
 
 function setup() {
-    // Canvasの設定
     createCanvas(600, 600);
     background(50);
-    document.getElementById('Ax').value = Ax;
-    document.getElementById('Ay').value = Ay;
-    document.getElementById('Bx').value = Bx;
-    document.getElementById('By').value = By;
-    document.getElementById('Cx').value = Cx;
-    document.getElementById('Cy').value = Cy;
-    document.getElementById('Dx').value = Dx;
-    document.getElementById('Dy').value = Dy;
 
-
-    document.getElementById('Ax').addEventListener('input', function(event) {
-        update();
-    });
-    document.getElementById('Ay').addEventListener('input', function(event) {
-        update();
-    });
-    document.getElementById('Bx').addEventListener('input', function(event) {
-        update();
-    });
-    document.getElementById('By').addEventListener('input', function(event) {
-        update();
-    });
-    document.getElementById('Cx').addEventListener('input', function(event) {
-        update();
-    });
-    document.getElementById('Cy').addEventListener('input', function(event) {
-        update();
-    });
-    document.getElementById('Dx').addEventListener('input', function(event) {
-        update();
-    });
-    document.getElementById('Dy').addEventListener('input', function(event) {
-        update();
-    });
+    for (let key in points) {
+        let input = document.getElementById(key);
+        input.value = points[key];
+        input.addEventListener('input', update);
+    }
 }
 
 function draw() {
@@ -63,15 +31,15 @@ function draw() {
     background(50);
 
     // 点の座標をベクトルとして定義
-    let A = createVector(Ax, Ay);
-    let B = createVector(Bx, By);
-    let C = createVector(Cx, Cy);
-    let D = createVector(Dx, Dy);
+    let A = createVector(points.Ax, points.Ay);
+    let B = createVector(points.Bx, points.By);
+    let C = createVector(points.Cx, points.Cy);
+    let D = createVector(points.Dx, points.Dy);
 
-    // let C = createVector(Ax, Ay);
-    // let D = createVector(Bx, By);
-    // let A = createVector(Cx, Cy);
-    // let B = createVector(Dx, Dy);
+    // let C = createVector(points.Ax, points.Ay);
+    // let D = createVector(points.Bx, points.By);
+    // let A = createVector(points.Cx, points.Cy);
+    // let B = createVector(points.Dx, points.Dy);
 
     // 2点に接する円を定義
     let circle1 = calculateCircle(A, B)
