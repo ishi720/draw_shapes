@@ -95,6 +95,7 @@ function draw() {
             input.value = points[key];
         }
     }
+
     // 点の座標をベクトルとして定義
     let A = createVector(points.Ax, points.Ay);
     let B = createVector(points.Bx, points.By);
@@ -122,8 +123,8 @@ function draw() {
     let nearPoint2 = findClosestPoint(center1, G, H);
     
     let { slope, intercept } = calculateSlopeAndIntercept(nearPoint1, nearPoint2);
-    I = calculateCircleLineIntersection(center1, radius1, slope, intercept, nearPoint1);
-    J = calculateCircleLineIntersection(center2, radius2, slope, intercept, nearPoint2);
+    let I = calculateCircleLineIntersection(center1, radius1, slope, intercept, nearPoint1);
+    let J = calculateCircleLineIntersection(center2, radius2, slope, intercept, nearPoint2);
 
     // 円を描画
     draw_ellipse(center1, radius1, "#fff");
@@ -184,6 +185,76 @@ function draw() {
             endShape(CLOSE);
         }
     }
+
+    // 二つ目
+    let center4 = calculateMidpoint(A, C);
+    let radius4 = calculateRadius(A, C);
+
+    let center5 = calculateMidpoint(B, D);
+    let radius5 = calculateRadius(B, D);
+
+    let perpendicular3 = calculatePerpendicularEndpoints(center4, radius4, A);
+    let M = perpendicular3.p1;
+    let N = perpendicular3.p2;
+
+    let perpendicular4 = calculatePerpendicularEndpoints(center5, radius5, B);
+    let O = perpendicular4.p1;
+    let P = perpendicular4.p2;
+
+    // 直線と円の第二の交点
+    let nearPoint3 = findClosestPoint(center5, M, N);
+    let nearPoint4 = findClosestPoint(center4, O, P);
+
+    let aaaaa = calculateSlopeAndIntercept(nearPoint3, nearPoint4);
+    let Q = calculateCircleLineIntersection(center4, radius4, aaaaa.slope, aaaaa.intercept, nearPoint3);
+    let R = calculateCircleLineIntersection(center5, radius5, aaaaa.slope, aaaaa.intercept, nearPoint4);
+
+    draw_ellipse(center4, radius4, "#fff");
+    draw_ellipse(center5, radius5, "#fff");
+    draw_straight_line(nearPoint3, nearPoint4, "#ff0");
+
+
+    if (Q && R) {
+        let eeeee = findExtremeXPoints([Q,R,N,P]);
+        Q = eeeee.maxXPoint;
+        R = eeeee.minXPoint;
+
+        // 第二の交点に接する円を定義
+        let center6 = calculateMidpoint(Q, R);
+        let radius6 = calculateRadius(Q, R);
+
+        // 垂直二等分線の交点を計算
+        let perpendicular6 = calculatePerpendicularEndpoints(center6, radius6, Q);
+        let S = perpendicular6.p1;
+        let T = perpendicular6.p2;
+    
+        // 円を描画
+        draw_ellipse(center6, radius6, "#0f0");
+
+        draw_point(M, "M", "#ff0");
+        draw_point(P, "P", "#ff0");
+        draw_point(O, "O", "#ff0");
+        draw_point(N, "N", "#ff0");
+        draw_point(Q, "Q", "#0f0");
+        draw_point(R, "R", "#0f0");
+        draw_point(S, "S", "#0f0");
+        draw_point(T, "T", "#0f0");
+
+        draw_rect(Q, S, R, T, "#0F0");
+
+        if (
+            isPointOnRectangle(A, Q, S, R, T) && 
+            isPointOnRectangle(B, Q, S, R, T) &&
+            isPointOnRectangle(C, Q, S, R, T) &&
+            isPointOnRectangle(D, Q, S, R, T)
+        ) {
+            // 四角形を描画
+            draw_rect(Q, S, R, T, "#0f0");
+            endShape(CLOSE);
+        }
+    }
+
+
 }
 
 /***********************************************/
@@ -449,7 +520,7 @@ function draw_straight_line(p1, p2, color) {
 }
 
 function draw_rect(p1, p2, p3, p4, color) {
-    fill(255, 0, 0, 100);
+    fill(color);
     stroke(color);
     beginShape();
     vertex(p1.x, p1.y);
