@@ -128,10 +128,10 @@ function draw() {
     draw_ellipse(center2, radius2, "#fff");
 
     // 直線を描画
-    // draw_straight_line(A, B, "#fff");
-    // draw_straight_line(C, D, "#fff");
-    // draw_straight_line(E, F, "#fff");
-    // draw_straight_line(G, H, "#fff");
+    draw_straight_line(A, B, "#fff");
+    draw_straight_line(C, D, "#fff");
+    draw_straight_line(E, F, "#fff");
+    draw_straight_line(G, H, "#fff");
     draw_straight_line(E, H, "#f0f");
 
     // 点とラベルを描画
@@ -172,9 +172,16 @@ function draw() {
         draw_point(K, "K", "#f0f");
         draw_point(L, "L", "#f0f");
 
-        // 四角形を描画
-        draw_rect(I, K, J, L, "#f00");
-        endShape(CLOSE);
+        if (
+            isPointOnRectangle(A, I, K, J, L) && 
+            isPointOnRectangle(B, I, K, J, L) &&
+            isPointOnRectangle(C, I, K, J, L) &&
+            isPointOnRectangle(D, I, K, J, L)
+        ) {
+            // 四角形を描画
+            draw_rect(I, K, J, L, "#f00");
+            endShape(CLOSE);
+        }
     }
 }
 
@@ -303,6 +310,40 @@ function calculateCircleLineIntersection(center, radius, slope, intercept, point
     return returnPoint;
 }
 
+/**
+ * 四角形と点が接しているかどうかを判定
+ *
+ * @param {p5.Vector} point - 判定する点の座標
+ * @param {p5.Vector} p1 - 四角形の1つ目の頂点
+ * @param {p5.Vector} p2 - 四角形の2つ目の頂点
+ * @param {p5.Vector} p3 - 四角形の3つ目の頂点
+ * @param {p5.Vector} p4 - 四角形の4つ目の頂点
+ * @returns {boolean} - 四角形に接していればtrue、そうでなければfalse
+ */
+function isPointOnRectangle(point, p1, p2, p3, p4) {
+    // 四角形の辺が点と接しているかどうかを判定
+    function isPointOnLineSegment(p1, p2, point) {
+        let crossProduct = (point.y - p1.y) * (p2.x - p1.x) - (point.x - p1.x) * (p2.y - p1.y);
+        if (Math.abs(crossProduct) > 1e-6) return false; // 点が直線上にない場合
+
+        let dotProduct = (point.x - p1.x) * (p2.x - p1.x) + (point.y - p1.y) * (p2.y - p1.y);
+        if (dotProduct < 0) return false; // 点がp1より左側にある場合
+
+        let squaredLength = (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y);
+        if (dotProduct > squaredLength) return false; // 点がp2より右側にある場合
+
+        return true; // 点が線分上にある場合
+    }
+
+    // 四角形の各辺が点と接しているかをチェック
+    return (
+        isPointOnLineSegment(p1, p2, point) ||
+        isPointOnLineSegment(p2, p3, point) ||
+        isPointOnLineSegment(p3, p4, point) ||
+        isPointOnLineSegment(p4, p1, point)
+    );
+}
+
 /***********************************************/
 /* 描画処理                                     */
 /***********************************************/
@@ -365,7 +406,8 @@ function draw_straight_line(p1, p2, color) {
 }
 
 function draw_rect(p1, p2, p3, p4, color) {
-    noFill();
+    // noFill();
+    fill(255, 0, 0, 100);
     stroke(color);
     beginShape();
     vertex(p1.x, p1.y);
