@@ -9,6 +9,8 @@ let points = {
     Dy: 520
 };
 
+let isLineShow = false;
+
 // let points = {
 //     Ax: Math.floor(Math.random() * 601),
 //     Ay: Math.floor(Math.random() * 601),
@@ -27,8 +29,11 @@ let velocityD = { vx: 1, vy: 2 };
 
 let isAutoMove = false;
 
-function changeIsAutoMove() {
+function changeAutoMove() {
     isAutoMove = !isAutoMove;
+}
+function changeLineShow() {
+    isLineShow = !isLineShow;
 }
 
 function update() {
@@ -126,27 +131,30 @@ function draw() {
     let I = calculateCircleLineIntersection(center1, radius1, slope, intercept, nearPoint1);
     let J = calculateCircleLineIntersection(center2, radius2, slope, intercept, nearPoint2);
 
-    // 円を描画
-    draw_ellipse(center1, radius1, "#fff");
-    draw_ellipse(center2, radius2, "#fff");
-
-    // 直線を描画
-    // draw_straight_line(A, B, "#fff");
-    // draw_straight_line(C, D, "#fff");
-    // draw_straight_line(E, F, "#fff");
-    // draw_straight_line(G, H, "#fff");
-    draw_straight_line(nearPoint1, nearPoint2, "#ff0");
-
     // 点とラベルを描画
     draw_point(A, "A", "#f00");
     draw_point(B, "B", "#f00");
     draw_point(C, "C", "#f00");
     draw_point(D, "D", "#f00");
-    draw_point(E, "E", "#ff0");
-    draw_point(F, "F", "#ff0");
-    draw_point(G, "G", "#ff0");
-    draw_point(H, "H", "#ff0");
 
+    if (isLineShow) {
+        // 円を描画
+        draw_ellipse(center1, radius1, "#fff");
+        draw_ellipse(center2, radius2, "#fff");
+
+        // 直線を描画
+        // draw_straight_line(A, B, "#fff");
+        // draw_straight_line(C, D, "#fff");
+        // draw_straight_line(E, F, "#fff");
+        // draw_straight_line(G, H, "#fff");
+        draw_straight_line(nearPoint1, nearPoint2, "#ff0");
+
+        // 点とラベルを描画
+        draw_point(E, "E", "#ff0");
+        draw_point(F, "F", "#ff0");
+        draw_point(G, "G", "#ff0");
+        draw_point(H, "H", "#ff0");
+    }
 
     if (I && J) {
         let { minXPoint, maxXPoint } = findExtremeXPoints([I,J,E,H]);
@@ -162,17 +170,19 @@ function draw() {
         let K = perpendicular3.p1;
         let L = perpendicular3.p2;
 
-        // 円を描画
-        draw_ellipse(center3, radius3, "#f0f");
+        if (isLineShow) {
+            // 円を描画
+            draw_ellipse(center3, radius3, "#f0f");
 
-        // 直線を描画
-        // draw_straight_line(K, L, "#f0f");
+            // 直線を描画
+            // draw_straight_line(K, L, "#f0f");
 
-        // 点とラベルを描画
-        draw_point(I, "I", "#f0f");
-        draw_point(J, "J", "#f0f");
-        draw_point(K, "K", "#f0f");
-        draw_point(L, "L", "#f0f");
+            // 点とラベルを描画
+            draw_point(I, "I", "#f0f");
+            draw_point(J, "J", "#f0f");
+            draw_point(K, "K", "#f0f");
+            draw_point(L, "L", "#f0f");
+        }
 
         if (
             isPointOnRectangle(A, I, K, J, L) && 
@@ -182,7 +192,6 @@ function draw() {
         ) {
             // 四角形を描画
             draw_rect(I, K, J, L, "#f00");
-            endShape(CLOSE);
         }
     }
 
@@ -209,10 +218,11 @@ function draw() {
     let Q = calculateCircleLineIntersection(center4, radius4, aaaaa.slope, aaaaa.intercept, nearPoint3);
     let R = calculateCircleLineIntersection(center5, radius5, aaaaa.slope, aaaaa.intercept, nearPoint4);
 
-    draw_ellipse(center4, radius4, "#fff");
-    draw_ellipse(center5, radius5, "#fff");
-    draw_straight_line(nearPoint3, nearPoint4, "#ff0");
-
+    if (isLineShow) {
+        draw_ellipse(center4, radius4, "#fff");
+        draw_ellipse(center5, radius5, "#fff");
+        draw_straight_line(nearPoint3, nearPoint4, "#ff0");
+    }
 
     if (Q && R) {
         let eeeee = findExtremeXPoints([Q,R,N,P]);
@@ -228,17 +238,19 @@ function draw() {
         let S = perpendicular6.p1;
         let T = perpendicular6.p2;
     
-        // 円を描画
-        draw_ellipse(center6, radius6, "#0f0");
+        if (isLineShow) {
+            // 円を描画
+            draw_ellipse(center6, radius6, "#0f0");
 
-        draw_point(M, "M", "#ff0");
-        draw_point(P, "P", "#ff0");
-        draw_point(O, "O", "#ff0");
-        draw_point(N, "N", "#ff0");
-        draw_point(Q, "Q", "#0f0");
-        draw_point(R, "R", "#0f0");
-        draw_point(S, "S", "#0f0");
-        draw_point(T, "T", "#0f0");
+            draw_point(M, "M", "#ff0");
+            draw_point(P, "P", "#ff0");
+            draw_point(O, "O", "#ff0");
+            draw_point(N, "N", "#ff0");
+            draw_point(Q, "Q", "#0f0");
+            draw_point(R, "R", "#0f0");
+            draw_point(S, "S", "#0f0");
+            draw_point(T, "T", "#0f0");
+        }
 
         if (
             isPointOnRectangle(A, Q, S, R, T) && 
@@ -248,7 +260,6 @@ function draw() {
         ) {
             // 四角形を描画
             draw_rect(Q, S, R, T, "#0f0");
-            endShape(CLOSE);
         }
     }
 
@@ -275,9 +286,11 @@ function draw() {
     let Z = calculateCircleLineIntersection(center7, radius7, bbbbb.slope, bbbbb.intercept, nearPoint5);
     let AA = calculateCircleLineIntersection(center8, radius8, bbbbb.slope, bbbbb.intercept, nearPoint6);
 
-    draw_ellipse(center7, radius7, "#fff");
-    draw_ellipse(center8, radius8, "#fff");
-    draw_straight_line(nearPoint5, nearPoint6, "#ff0");
+    if (isLineShow) {
+        draw_ellipse(center7, radius7, "#fff");
+        draw_ellipse(center8, radius8, "#fff");
+        draw_straight_line(nearPoint5, nearPoint6, "#ff0");
+    }
 
 
     if (Z && AA) {
@@ -294,18 +307,19 @@ function draw() {
         let BB = perpendicular9.p1;
         let CC = perpendicular9.p2;
     
-        // 円を描画
-        draw_ellipse(center9, radius9, "#00f");
+        if (isLineShow) {
+            // 円を描画
+            draw_ellipse(center9, radius9, "#00f");
 
-        draw_point(U, "U", "#ff0");
-        draw_point(V, "V", "#ff0");
-        draw_point(W, "W", "#ff0");
-        draw_point(X, "X", "#ff0");
-        draw_point(Z, "Z", "#0f0");
-        draw_point(AA, "AA", "#0f0");
-        draw_point(BB, "BB", "#0f0");
-        draw_point(CC, "CC", "#0f0");
-
+            draw_point(U, "U", "#ff0");
+            draw_point(V, "V", "#ff0");
+            draw_point(W, "W", "#ff0");
+            draw_point(X, "X", "#ff0");
+            draw_point(Z, "Z", "#0f0");
+            draw_point(AA, "AA", "#0f0");
+            draw_point(BB, "BB", "#0f0");
+            draw_point(CC, "CC", "#0f0");
+        }
 
         if (
             isPointOnRectangle(A, Z, BB, AA, CC) && 
@@ -315,7 +329,6 @@ function draw() {
         ) {
             // 四角形を描画
             draw_rect(Z, BB, AA, CC, "#00f");
-            endShape(CLOSE);
         }
     }
 
@@ -592,4 +605,5 @@ function draw_rect(p1, p2, p3, p4, color) {
     vertex(p2.x, p2.y);
     vertex(p3.x, p3.y);
     vertex(p4.x, p4.y);
+    endShape(CLOSE);
 }
