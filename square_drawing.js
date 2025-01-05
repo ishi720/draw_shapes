@@ -6,8 +6,19 @@ let points = {
     Cx: 320,
     Cy: 260,
     Dx: 330,
-    Dy: 350
+    Dy: 520
 };
+
+// let points = {
+//     Ax: Math.floor(Math.random() * 601),
+//     Ay: Math.floor(Math.random() * 601),
+//     Bx: Math.floor(Math.random() * 601),
+//     By: Math.floor(Math.random() * 601),
+//     Cx: Math.floor(Math.random() * 601),
+//     Cy: Math.floor(Math.random() * 601),
+//     Dx: Math.floor(Math.random() * 601),
+//     Dy: Math.floor(Math.random() * 601)
+// };
 
 let velocityA = { vx: 2, vy: 3 };
 let velocityB = { vx: 4, vy: 1 };
@@ -113,23 +124,24 @@ function draw() {
     let G = perpendicular2.p1;
     let H = perpendicular2.p2
 
-    // TODO: 垂直二等分線の交点のうち、2つの円の内側の点を判定する
-
     // 直線と円の第二の交点
-    let { slope, intercept } = calculateSlopeAndIntercept(H, E);
-    I = calculateCircleLineIntersection(center1, radius1, slope, intercept, E);
-    J = calculateCircleLineIntersection(center2, radius2, slope, intercept, H);
+    let nearPoint1 = findClosestPoint(center2, E, F);
+    let nearPoint2 = findClosestPoint(center2, G, H);
+    
+    let { slope, intercept } = calculateSlopeAndIntercept(nearPoint1, nearPoint2);
+    I = calculateCircleLineIntersection(center1, radius1, slope, intercept, nearPoint1);
+    J = calculateCircleLineIntersection(center2, radius2, slope, intercept, nearPoint2);
 
     // 円を描画
     draw_ellipse(center1, radius1, "#fff");
     draw_ellipse(center2, radius2, "#fff");
 
     // 直線を描画
-    draw_straight_line(A, B, "#fff");
-    draw_straight_line(C, D, "#fff");
-    draw_straight_line(E, F, "#fff");
-    draw_straight_line(G, H, "#fff");
-    draw_straight_line(E, H, "#f0f");
+    // draw_straight_line(A, B, "#fff");
+    // draw_straight_line(C, D, "#fff");
+    // draw_straight_line(E, F, "#fff");
+    // draw_straight_line(G, H, "#fff");
+    draw_straight_line(nearPoint1, nearPoint2, "#ff0");
 
     // 点とラベルを描画
     draw_point(A, "A", "#f00");
@@ -208,6 +220,37 @@ function calculateMidpoint(p1, p2) {
 function calculateRadius(p1, p2) {
     let distance = dist(p1.x, p1.y, p2.x, p2.y);
     return distance / 2;
+}
+
+/**
+ * 円の中心と点の距離を計算する関数。
+ *
+ * @param {p5.Vector} center - 円の中心を表すp5.Vectorオブジェクト。
+ * @param {p5.Vector} point - 点を表すp5.Vectorオブジェクト。
+ * @returns {number} - 円の中心と点の距離。
+ */
+function calculateDistance(center, point) {
+    return center.dist(point);
+  }
+
+/**
+ * 2つの点のうち、円の中心に近い点を判定する関数
+ *
+ * @param {p5.Vector} center - 円の中心を表すp5.Vectorオブジェクト
+ * @param {p5.Vector} point1 - 点1を表すp5.Vectorオブジェクト
+ * @param {p5.Vector} point2 - 点2を表すp5.Vectorオブジェクト
+ * @returns {p5.Vector} - 最も近いp5.Vectorオブジェクト
+
+ */
+function findClosestPoint(center, point1, point2) {
+    const distance1 = calculateDistance(center, point1);
+    const distance2 = calculateDistance(center, point2);
+    // 最も近い点を判定
+    if (distance1 < distance2) {
+      return point1;
+    } else {
+      return point2;
+    }
 }
 
 /**
