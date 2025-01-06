@@ -643,8 +643,17 @@ function draw_straight_line(p1, p2, color) {
     line(0, yStart, width, yEnd);
 }
 
+/**
+ * 四角形を描画
+ *
+ * @param {p5.Vector} p1 - 頂点1の座標
+ * @param {p5.Vector} p2 - 頂点2の座標
+ * @param {p5.Vector} p3 - 頂点3の座標
+ * @param {p5.Vector} p4 - 頂点4の座標
+ * @param {p5.Vector} color - 描画する色
+ */
 function draw_rect(p1, p2, p3, p4, color) {
-    fill(color);
+    fill(red(color), green(color), blue(color), 100);
     stroke(color);
     beginShape();
     vertex(p1.x, p1.y);
