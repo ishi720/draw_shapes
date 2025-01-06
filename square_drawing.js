@@ -131,12 +131,6 @@ function draw() {
     let I = calculateCircleLineIntersection(center1, radius1, slope, intercept, nearPoint1);
     let J = calculateCircleLineIntersection(center2, radius2, slope, intercept, nearPoint2);
 
-    // 点とラベルを描画
-    draw_point(A, "A", "#f00");
-    draw_point(B, "B", "#f00");
-    draw_point(C, "C", "#f00");
-    draw_point(D, "D", "#f00");
-
     if (isLineShow) {
         // 円を描画
         draw_ellipse(center1, radius1, "#fff");
@@ -335,6 +329,12 @@ function draw() {
         let square = sortPointsClockwise([A,B,C,D]);
         draw_rect(square[0], square[1], square[2], square[3], "#ff0");
     }
+
+    // 点とラベルを描画
+    draw_point(A, "A", "#f00");
+    draw_point(B, "B", "#f00");
+    draw_point(C, "C", "#f00");
+    draw_point(D, "D", "#f00");
 }
 
 /***********************************************/
