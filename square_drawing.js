@@ -292,7 +292,6 @@ function draw() {
         draw_straight_line(nearPoint5, nearPoint6, "#ff0");
     }
 
-
     if (Z && AA) {
         let eeeee = findExtremeXPoints([Z,AA,V,X]);
         Z = eeeee.maxXPoint;
@@ -332,7 +331,10 @@ function draw() {
         }
     }
 
-
+    if (isSquare([A,B,C,D])) {
+        let square = sortPointsClockwise([A,B,C,D]);
+        draw_rect(square[0], square[1], square[2], square[3], "#ff0");
+    }
 }
 
 /***********************************************/
@@ -534,7 +536,51 @@ function isPointOnRectangle(point, p1, p2, p3, p4) {
         isPointOnLineSegment(p4, p1, point)
     );
 }
+function distance(p1, p2) {
+    return (p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2;
+}
 
+
+function isSquare(points) {
+    let distances = [];
+    for (let i = 0; i < points.length; i++) {
+        for (let j = i + 1; j < points.length; j++) {
+            distances.push(distance(points[i], points[j]));
+        }
+    }
+
+    distances.sort((a, b) => a - b);
+    return (
+        distances[0] > 0 && 
+        distances[0] === distances[1] &&
+        distances[1] === distances[2] &&
+        distances[2] === distances[3] &&
+        distances[4] === distances[5] &&
+        distances[0] * 2 === distances[4]
+    );
+}
+
+function sortPointsClockwise(points) {
+    // 重心を計算
+    let centerX = 0, centerY = 0;
+    points.forEach(p => {
+        centerX += p.x;
+        centerY += p.y;
+    });
+    centerX /= points.length;
+    centerY /= points.length;
+
+    let center = createVector(centerX, centerY);
+
+    // 点を角度でソート
+    points.sort((a, b) => {
+        let angleA = Math.atan2(a.y - center.y, a.x - center.x);
+        let angleB = Math.atan2(b.y - center.y, b.x - center.x);
+        return angleB - angleA; // 角度が大きい順にソート（時計回り）
+    });
+
+    return points;
+}
 
 /***********************************************/
 /* 描画処理                                     */
