@@ -36,7 +36,19 @@
     </div>
     <div>
       <button onclick="changeAutoMove()">モード切り替え</button>
-      <button onclick="changeLineShow()">補助線表示切り替え</button>
+      <!-- <button onclick="changeLineShow()">補助線表示切り替え</button> -->
+      <span>
+        <input type="checkbox" onchange="changeClusterShowA()" id="clusterA" name="clusterA" />
+        <label for="clusterA">補助線表示切り替えA</label>
+      </span>
+      <span>
+        <input type="checkbox" onchange="changeClusterShowB()" id="clusterB" name="clusterB" />
+        <label for="clusterB">補助線表示切り替えB</label>
+      </span>
+      <span>
+        <input type="checkbox" onchange="changeClusterShowC()" id="clusterC" name="clusterC" />
+        <label for="clusterC">補助線表示切り替えC</label>
+      </span>
     </div>
   </main>
 
