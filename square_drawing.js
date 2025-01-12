@@ -422,16 +422,11 @@ function calculatePerpendicularEndpoints(center, radius, point) {
  * @param {Object} p1 - 1つ目の点
  * @param {Object} p2 - 2つ目の点
  * @returns {Object} 次のプロパティを持つオブジェクトを返します：
- *  - `slope` {number}: 直線の傾き。直線が垂直の場合はInfinity
+ *  - `slope` {number}: 直線の傾き
  *  - `intercept` {number}: y切片。直線が垂直の場合はx座標
  */
 function calculateSlopeAndIntercept(p1, p2) {
-    // x座標が同じ場合（垂直線）
-    if (p1.x === p2.x) {
-        return { slope: Infinity, intercept: p1.x }; // 傾きはInfinity、y切片はx座標
-    }
-    let direction = createVector(p1.x - p2.x, p1.y - p2.y); // ベクトル方向を求める
-    let slope = direction.y / direction.x; // 傾きを計算
+    let slope = (p2.y - p1.y) / (p2.x - p1.x); // 傾きを計算
     let intercept = p2.y - slope * p2.x; // y切片を計算
     return { slope, intercept }; // 傾きとy切片をオブジェクトで返す
 }
@@ -536,9 +531,9 @@ function isPointOnRectangle(point, p1, p2, p3, p4) {
 /**
  * 2つの点の間のユークリッド距離の2乗を計算
  * 
- * @param {Object} p1 - 1つ目の点。{x, y}形式のオブジェクト
- * @param {Object} p2 - 2つ目の点。{x, y}形式のオブジェクト
- * @returns {number} 2つの点間の距離の2乗
+ * @param {Object} p1 - 1つ目の点。{x, y}形式のオブジェクト。
+ * @param {Object} p2 - 2つ目の点。{x, y}形式のオブジェクト。
+ * @returns {number} 2つの点間の距離の2乗。
  */
 function distance(p1, p2) {
     return (p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2;
