@@ -18,6 +18,8 @@ let velocityB = { vx: getRandomValue(-5, 5), vy: getRandomValue(-5, 5) };
 let velocityC = { vx: getRandomValue(-5, 5), vy: getRandomValue(-5, 5) };
 let velocityD = { vx: getRandomValue(-5, 5), vy: getRandomValue(-5, 5) };
 
+let isDisplaying = false;
+
 let isAutoMove = false;
 
 function changeAutoMove() {
@@ -52,6 +54,7 @@ function setup() {
 function draw() {
     clear();
     background(50);
+    isDisplaying = false;
 
     if (isAutoMove) {
 
@@ -133,10 +136,10 @@ function draw() {
         draw_ellipse(center2, radius2, "#fff");
 
         // 直線を描画
-        // draw_straight_line(A, B, "#fff");
-        // draw_straight_line(C, D, "#fff");
-        // draw_straight_line(E, F, "#fff");
-        // draw_straight_line(G, H, "#fff");
+        draw_straight_line(A, B, "#fff");
+        draw_straight_line(C, D, "#fff");
+        draw_straight_line(E, F, "#fff");
+        draw_straight_line(G, H, "#fff");
         draw_straight_line(nearPoint1, nearPoint2, "#ff0");
 
         // 点とラベルを描画
@@ -181,7 +184,10 @@ function draw() {
             isPointOnRectangle(D, I, K, J, L)
         ) {
             // 四角形を描画
-            draw_rect(I, K, J, L, "#f00");
+            if (!isDisplaying) {
+                isDisplaying = true;
+                draw_rect(I, K, J, L, "#f00");
+            }
         }
     }
 
@@ -249,7 +255,11 @@ function draw() {
             isPointOnRectangle(D, Q, S, R, T)
         ) {
             // 四角形を描画
-            draw_rect(Q, S, R, T, "#0f0");
+            if (!isDisplaying) {
+                isDisplaying = true;
+                draw_rect(Q, S, R, T, "#f00");
+            }
+            
         }
     }
 
@@ -317,13 +327,20 @@ function draw() {
             isPointOnRectangle(D, Z, BB, AA, CC)
         ) {
             // 四角形を描画
-            draw_rect(Z, BB, AA, CC, "#00f");
+            if (!isDisplaying) {
+                isDisplaying = true;
+                draw_rect(Z, BB, AA, CC, "#f00");
+            }
+            
         }
     }
 
     if (isSquare([A,B,C,D])) {
         let square = sortPointsClockwise([A,B,C,D]);
-        draw_rect(square[0], square[1], square[2], square[3], "#ff0");
+        if (!isDisplaying) {
+            isDisplaying = true;
+            draw_rect(square[0], square[1], square[2], square[3], "#f00");
+        }
     }
 
     // 点とラベルを描画
@@ -496,9 +513,9 @@ function calculateCircleLineIntersection(center, radius, slope, intercept, point
       let y2_2 = slope * x2_2 + intercept;
   
       // 交点を描画
-      if (dist(x2_1, y2_1, point.x, point.y) > 5) {
+      if (dist(x2_1, y2_1, point.x, point.y) > 1) {
         returnPoint = createVector(x2_1, y2_1);
-      } else if (dist(x2_2, y2_2, point.x, point.y) > 5) {
+      } else if (dist(x2_2, y2_2, point.x, point.y) > 1) {
         returnPoint = createVector(x2_2, y2_2);
       }
     }
