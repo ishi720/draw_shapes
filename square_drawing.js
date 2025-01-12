@@ -1,30 +1,17 @@
 let points = {
-    Ax: 220,
-    Ay: 200,
-    Bx: 120,
-    By: 300,
-    Cx: 320,
-    Cy: 260,
-    Dx: 330,
-    Dy: 520
+    Ax: Math.floor(Math.random() * 601),
+    Ay: Math.floor(Math.random() * 601),
+    Bx: Math.floor(Math.random() * 601),
+    By: Math.floor(Math.random() * 601),
+    Cx: Math.floor(Math.random() * 601),
+    Cy: Math.floor(Math.random() * 601),
+    Dx: Math.floor(Math.random() * 601),
+    Dy: Math.floor(Math.random() * 601)
 };
-
-let isLineShow = false;
 
 let isClusterShowA = false;
 let isClusterShowB = false;
 let isClusterShowC = false;
-
-// let points = {
-//     Ax: Math.floor(Math.random() * 601),
-//     Ay: Math.floor(Math.random() * 601),
-//     Bx: Math.floor(Math.random() * 601),
-//     By: Math.floor(Math.random() * 601),
-//     Cx: Math.floor(Math.random() * 601),
-//     Cy: Math.floor(Math.random() * 601),
-//     Dx: Math.floor(Math.random() * 601),
-//     Dy: Math.floor(Math.random() * 601)
-// };
 
 let velocityA = { vx: 2, vy: 3 };
 let velocityB = { vx: 4, vy: 1 };
@@ -35,9 +22,6 @@ let isAutoMove = false;
 
 function changeAutoMove() {
     isAutoMove = !isAutoMove;
-}
-function changeLineShow() {
-    isLineShow = !isLineShow;
 }
 function changeClusterShowA () {
     isClusterShowA = !isClusterShowA;
@@ -143,7 +127,7 @@ function draw() {
     let I = calculateCircleLineIntersection(center1, radius1, slope, intercept, nearPoint1);
     let J = calculateCircleLineIntersection(center2, radius2, slope, intercept, nearPoint2);
 
-    if (isLineShow || isClusterShowA) {
+    if (isClusterShowA) {
         // 円を描画
         draw_ellipse(center1, radius1, "#fff");
         draw_ellipse(center2, radius2, "#fff");
@@ -176,7 +160,7 @@ function draw() {
         let K = perpendicular3.p1;
         let L = perpendicular3.p2;
 
-        if (isLineShow || isClusterShowA) {
+        if (isClusterShowA) {
             // 円を描画
             draw_ellipse(center3, radius3, "#f0f");
 
@@ -224,7 +208,7 @@ function draw() {
     let Q = calculateCircleLineIntersection(center4, radius4, aaaaa.slope, aaaaa.intercept, nearPoint3);
     let R = calculateCircleLineIntersection(center5, radius5, aaaaa.slope, aaaaa.intercept, nearPoint4);
 
-    if (isLineShow || isClusterShowB) {
+    if (isClusterShowB) {
         draw_ellipse(center4, radius4, "#fff");
         draw_ellipse(center5, radius5, "#fff");
         draw_straight_line(nearPoint3, nearPoint4, "#ff0");
@@ -244,7 +228,7 @@ function draw() {
         let S = perpendicular6.p1;
         let T = perpendicular6.p2;
     
-        if (isLineShow || isClusterShowB) {
+        if (isClusterShowB) {
             // 円を描画
             draw_ellipse(center6, radius6, "#0f0");
 
@@ -292,7 +276,7 @@ function draw() {
     let Z = calculateCircleLineIntersection(center7, radius7, bbbbb.slope, bbbbb.intercept, nearPoint5);
     let AA = calculateCircleLineIntersection(center8, radius8, bbbbb.slope, bbbbb.intercept, nearPoint6);
 
-    if (isLineShow || isClusterShowC) {
+    if (isClusterShowC) {
         draw_ellipse(center7, radius7, "#fff");
         draw_ellipse(center8, radius8, "#fff");
         draw_straight_line(nearPoint5, nearPoint6, "#ff0");
@@ -312,7 +296,7 @@ function draw() {
         let BB = perpendicular9.p1;
         let CC = perpendicular9.p2;
     
-        if (isLineShow || isClusterShowC) {
+        if (isClusterShowC) {
             // 円を描画
             draw_ellipse(center9, radius9, "#00f");
 
@@ -548,11 +532,24 @@ function isPointOnRectangle(point, p1, p2, p3, p4) {
         isPointOnLineSegment(p4, p1, point)
     );
 }
+
+/**
+ * 2つの点の間のユークリッド距離の2乗を計算
+ * 
+ * @param {Object} p1 - 1つ目の点。{x, y}形式のオブジェクト
+ * @param {Object} p2 - 2つ目の点。{x, y}形式のオブジェクト
+ * @returns {number} 2つの点間の距離の2乗
+ */
 function distance(p1, p2) {
     return (p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2;
 }
 
-
+/**
+ * 4点が正方形かどうかを判定
+ * 
+ * @param {Object[]} points - 点の配列。各点は{x, y}形式のオブジェクト
+ * @returns {boolean} 点が正方形を形成している場合はtrue、そうでない場合はfalse。
+ */
 function isSquare(points) {
     let distances = [];
     for (let i = 0; i < points.length; i++) {
@@ -572,6 +569,12 @@ function isSquare(points) {
     );
 }
 
+/**
+ * 点の配列を重心を中心に時計回りにソート
+ *
+ * @param {Array} points - `x`および`y`プロパティを持つ点オブジェクトの配列
+ * @returns {Array} - 時計回りにソートされた点の配列
+ */
 function sortPointsClockwise(points) {
     // 重心を計算
     let centerX = 0, centerY = 0;
