@@ -1,22 +1,22 @@
 let points = {
-    Ax: Math.floor(Math.random() * 601),
-    Ay: Math.floor(Math.random() * 601),
-    Bx: Math.floor(Math.random() * 601),
-    By: Math.floor(Math.random() * 601),
-    Cx: Math.floor(Math.random() * 601),
-    Cy: Math.floor(Math.random() * 601),
-    Dx: Math.floor(Math.random() * 601),
-    Dy: Math.floor(Math.random() * 601)
+    Ax: Math.floor(getRandomValue(0, 600)),
+    Ay: Math.floor(getRandomValue(0, 600)),
+    Bx: Math.floor(getRandomValue(0, 600)),
+    By: Math.floor(getRandomValue(0, 600)),
+    Cx: Math.floor(getRandomValue(0, 600)),
+    Cy: Math.floor(getRandomValue(0, 600)),
+    Dx: Math.floor(getRandomValue(0, 600)),
+    Dy: Math.floor(getRandomValue(0, 600))
 };
 
 let isClusterShowA = false;
 let isClusterShowB = false;
 let isClusterShowC = false;
 
-let velocityA = { vx: 2, vy: 3 };
-let velocityB = { vx: 4, vy: 1 };
-let velocityC = { vx: -1, vy: 2 };
-let velocityD = { vx: 1, vy: 2 };
+let velocityA = { vx: getRandomValue(-5, 5), vy: getRandomValue(-5, 5) };
+let velocityB = { vx: getRandomValue(-5, 5), vy: getRandomValue(-5, 5) };
+let velocityC = { vx: getRandomValue(-5, 5), vy: getRandomValue(-5, 5) };
+let velocityD = { vx: getRandomValue(-5, 5), vy: getRandomValue(-5, 5) };
 
 let isAutoMove = false;
 
@@ -336,6 +336,17 @@ function draw() {
 /***********************************************/
 /* 計算処理                                     */
 /***********************************************/
+
+/**
+ * ランダムな整数を生成
+ * 
+ * @param {number} min - ランダムな数の最小値
+ * @param {number} max - ランダムな数の最大値
+ * @returns {number} - ランダムな整数
+ */
+function getRandomValue(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 /**
  * 2点間の中点を計算
