@@ -22,6 +22,9 @@ let isDisplaying = false;
 
 let isAutoMove = false;
 
+let fpsCount = 0;
+let isDisplayingCount = 0;
+
 function changeAutoMove() {
     isAutoMove = !isAutoMove;
 }
@@ -57,6 +60,8 @@ function draw() {
     isDisplaying = false;
 
     if (isAutoMove) {
+
+        fpsCount++;
 
         // 点Aの位置を更新
         points.Ax += velocityA.vx;
@@ -186,6 +191,7 @@ function draw() {
             // 四角形を描画
             if (!isDisplaying) {
                 isDisplaying = true;
+                isDisplayingCount++;
                 draw_rect(I, K, J, L, "#f00");
             }
         }
@@ -257,6 +263,7 @@ function draw() {
             // 四角形を描画
             if (!isDisplaying) {
                 isDisplaying = true;
+                isDisplayingCount++;
                 draw_rect(Q, S, R, T, "#f00");
             }
             
@@ -329,6 +336,7 @@ function draw() {
             // 四角形を描画
             if (!isDisplaying) {
                 isDisplaying = true;
+                isDisplayingCount++;
                 draw_rect(Z, BB, AA, CC, "#f00");
             }
             
@@ -339,6 +347,7 @@ function draw() {
         let square = sortPointsClockwise([A,B,C,D]);
         if (!isDisplaying) {
             isDisplaying = true;
+            isDisplayingCount++;
             draw_rect(square[0], square[1], square[2], square[3], "#f00");
         }
     }
