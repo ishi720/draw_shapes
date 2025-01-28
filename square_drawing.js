@@ -518,31 +518,47 @@ function findExtremeXPoints(points) {
  */
 function calculateCircleLineIntersection(center, radius, slope, intercept, point) {
     // 直線と円の交点
-    let a2 = 1 + slope * slope;
-    let b2 = 2 * (slope * (intercept - center.y) - center.x);
-    let c2 =
+    let a = 1 + slope * slope;
+    let b = 2 * (slope * (intercept - center.y) - center.x);
+    let c =
       center.x * center.x +
       (intercept - center.y) * (intercept - center.y) -
       radius * radius;
 
     // 判別式
-    let discriminant2 = b2 * b2 - 4 * a2 * c2;
+    let discriminant = b * b - 4 * a * c;
     let returnPoint = null;
 
-    if (discriminant2 >= 0) {
-      let x2_1 = (-b2 + sqrt(discriminant2)) / (2 * a2);
-      let y2_1 = slope * x2_1 + intercept;
-      let x2_2 = (-b2 - sqrt(discriminant2)) / (2 * a2);
-      let y2_2 = slope * x2_2 + intercept;
-
+    if (discriminant >= 0) {
+      // 二次方程式の解の公式に基づいて交点を計算
+      const intersectionPoints = calculateIntersectionPoints(a, b, discriminant, slope, intercept);
       // 交点を描画
-      if (dist(x2_1, y2_1, point.x, point.y) > 1) {
-        returnPoint = createVector(x2_1, y2_1);
-      } else if (dist(x2_2, y2_2, point.x, point.y) > 1) {
-        returnPoint = createVector(x2_2, y2_2);
+      if (dist(intersectionPoints[0].x, intersectionPoints[0].y, point.x, point.y) > 1) {
+        returnPoint = createVector(intersectionPoints[0].x, intersectionPoints[0].y);
+      } else if (dist(intersectionPoints[1].x, intersectionPoints[1].y, point.x, point.y) > 1) {
+        returnPoint = createVector(intersectionPoints[1].x, intersectionPoints[1].y);
       }
     }
     return returnPoint;
+}
+
+/**
+ * 二次方程式の解の公式に基づいて交点を計算
+ *
+ * @param {number} a - 2次項の係数
+ * @param {number} b - 1次項の係数
+ * @param {number} discriminant - 判別式の値
+ * @param {number} slope - 直線の傾き
+ * @param {number} intercept - 直線の切片
+ * @returns {Array<p5.Vector>} 交点の配列
+ */
+function calculateIntersectionPoints(a, b, discriminant, slope, intercept) {
+    const sqrtDiscriminant = sqrt(discriminant);
+    const x1 = (-b + sqrtDiscriminant) / (2 * a);
+    const y1 = slope * x1 + intercept;
+    const x2 = (-b - sqrtDiscriminant) / (2 * a);
+    const y2 = slope * x2 + intercept;
+    return [createVector(x1, y1), createVector(x2, y2)];
 }
 
 /**
