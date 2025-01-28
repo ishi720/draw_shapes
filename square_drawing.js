@@ -1,13 +1,11 @@
+// 点の位置
 let points = {
-    Ax: Math.floor(getRandomValue(0, 600)),
-    Ay: Math.floor(getRandomValue(0, 600)),
-    Bx: Math.floor(getRandomValue(0, 600)),
-    By: Math.floor(getRandomValue(0, 600)),
-    Cx: Math.floor(getRandomValue(0, 600)),
-    Cy: Math.floor(getRandomValue(0, 600)),
-    Dx: Math.floor(getRandomValue(0, 600)),
-    Dy: Math.floor(getRandomValue(0, 600))
+    A: { x: getRandomValue(0, 600), y: getRandomValue(0, 600) },
+    B: { x: getRandomValue(0, 600), y: getRandomValue(0, 600) },
+    C: { x: getRandomValue(0, 600), y: getRandomValue(0, 600) },
+    D: { x: getRandomValue(0, 600), y: getRandomValue(0, 600) }
 };
+
 
 let isClusterShowA = false;
 let isClusterShowB = false;
@@ -47,11 +45,14 @@ function setup() {
     createCanvas(600, 600);
     background(50);
 
-    for (let key in points) {
-        let input = document.getElementById(key);
-        input.value = points[key];
-        input.addEventListener('input', update);
-    }
+    Object.keys(points).forEach(key => {
+        ['x', 'y'].forEach(axis => {
+            let input = document.getElementById(`${key}${axis}`);
+            input.value = points[key][axis];
+            input.addEventListener('input', update);
+        });
+
+    });
 }
 
 function draw() {
@@ -64,58 +65,29 @@ function draw() {
 
         fpsCount++;
 
-
-
         document.getElementById("meter_ratio").textContent = (isDisplayingCount/fpsCount * 100).toFixed(2) + "%";
         document.getElementById("meter").value = (isDisplayingCount/fpsCount * 100).toFixed(2);
 
-        // 点Aの位置を更新
-        points.Ax += velocityA.vx;
-        points.Ay += velocityA.vy;
-        points.Bx += velocityB.vx;
-        points.By += velocityB.vy;
-        points.Cx += velocityC.vx;
-        points.Cy += velocityC.vy;
-        points.Dx += velocityD.vx;
-        points.Dy += velocityD.vy;
+        // 点の位置を更新
+        updatePosition(points.A, velocityA);
+        updatePosition(points.B, velocityB);
+        updatePosition(points.C, velocityC);
+        updatePosition(points.D, velocityD);
 
-        // 境界で跳ね返る処理
-        if (points.Ax > width || points.Ax < 0) {
-            velocityA.vx *= -1;
-        }
-        if (points.Ay > height || points.Ay < 0) {
-            velocityA.vy *= -1;
-        }
-        if (points.Bx > width || points.Bx < 0) {
-            velocityB.vx *= -1;
-        }
-        if (points.By > height || points.By < 0) {
-            velocityB.vy *= -1;
-        }
-        if (points.Cx > width || points.Cx < 0) {
-            velocityC.vx *= -1;
-        }
-        if (points.Cy > height || points.Cy < 0) {
-            velocityC.vy *= -1;
-        }
-        if (points.Dx > width || points.Dx < 0) {
-            velocityD.vx *= -1;
-        }
-        if (points.Dy > height || points.Dy < 0) {
-            velocityD.vy *= -1;
-        }
-
-        for (let key in points) {
-            let input = document.getElementById(key);
-            input.value = points[key];
-        }
+        // 入力ボックスの値を更新
+        Object.keys(points).forEach(key => {
+            ['x', 'y'].forEach(axis => {
+                let input = document.getElementById(`${key}${axis}`);
+                input.value = points[key][axis];
+            });
+        });
     }
 
     // 点の座標をベクトルとして定義
-    let A = createVector(points.Ax, points.Ay);
-    let B = createVector(points.Bx, points.By);
-    let C = createVector(points.Cx, points.Cy);
-    let D = createVector(points.Dx, points.Dy);
+    let A = points.A;
+    let B = points.B;
+    let C = points.C;
+    let D = points.D;
 
     // 2点に接する円を定義
     let center1 = calculateMidpoint(A, B);
@@ -422,7 +394,7 @@ function calculateRadius(p1, p2) {
  */
 function calculateDistance(center, point) {
     return center.dist(point);
-  }
+}
 
 /**
  * 2つの点のうち、円の中心に近い点を判定する関数
@@ -659,6 +631,24 @@ function sortPointsClockwise(points) {
     return points;
 }
 
+/**
+ * 点の位置を更新する
+ *
+ * @param {Object} point - x座標とy座標を含む点オブジェクト
+ * @param {Object} velocity - vxとvy成分を含む速度オブジェクト
+ */
+function updatePosition(point, velocity) {
+    point.x += velocity.vx;
+    point.y += velocity.vy;
+
+    // 境界で跳ね返る処理
+    if (point.x > width || point.x < 0) {
+        velocity.vx *= -1;
+    }
+    if (point.y > height || point.y < 0) {
+        velocity.vy *= -1;
+    }
+}
 /***********************************************/
 /* 描画処理                                     */
 /***********************************************/
