@@ -64,8 +64,8 @@ function draw() {
 
         fpsCount++;
 
-        
-        
+
+
         document.getElementById("meter_ratio").textContent = (isDisplayingCount/fpsCount * 100).toFixed(2) + "%";
         document.getElementById("meter").value = (isDisplayingCount/fpsCount * 100).toFixed(2);
 
@@ -81,25 +81,25 @@ function draw() {
 
         // 境界で跳ね返る処理
         if (points.Ax > width || points.Ax < 0) {
-            velocityA.vx *= -1; 
+            velocityA.vx *= -1;
         }
         if (points.Ay > height || points.Ay < 0) {
             velocityA.vy *= -1;
         }
         if (points.Bx > width || points.Bx < 0) {
-            velocityB.vx *= -1; 
+            velocityB.vx *= -1;
         }
         if (points.By > height || points.By < 0) {
             velocityB.vy *= -1;
         }
         if (points.Cx > width || points.Cx < 0) {
-            velocityC.vx *= -1; 
+            velocityC.vx *= -1;
         }
         if (points.Cy > height || points.Cy < 0) {
             velocityC.vy *= -1;
         }
         if (points.Dx > width || points.Dx < 0) {
-            velocityD.vx *= -1; 
+            velocityD.vx *= -1;
         }
         if (points.Dy > height || points.Dy < 0) {
             velocityD.vy *= -1;
@@ -128,7 +128,7 @@ function draw() {
     let perpendicular1 = calculatePerpendicularEndpoints(center1, radius1, A);
     let E = perpendicular1.p1;
     let F = perpendicular1.p2;
-    
+
     let perpendicular2 = calculatePerpendicularEndpoints(center2, radius2, C);
     let G = perpendicular2.p1;
     let H = perpendicular2.p2;
@@ -136,7 +136,7 @@ function draw() {
     // 直線と円の第二の交点
     let nearPoint1 = findClosestPoint(center2, E, F);
     let nearPoint2 = findClosestPoint(center1, G, H);
-    
+
     let { slope, intercept } = calculateSlopeAndIntercept(nearPoint1, nearPoint2);
     let I = calculateCircleLineIntersection(center1, radius1, slope, intercept, nearPoint1);
     let J = calculateCircleLineIntersection(center2, radius2, slope, intercept, nearPoint2);
@@ -189,7 +189,7 @@ function draw() {
         }
 
         if (
-            isPointOnRectangle(A, I, K, J, L) && 
+            isPointOnRectangle(A, I, K, J, L) &&
             isPointOnRectangle(B, I, K, J, L) &&
             isPointOnRectangle(C, I, K, J, L) &&
             isPointOnRectangle(D, I, K, J, L)
@@ -247,7 +247,7 @@ function draw() {
         let perpendicular6 = calculatePerpendicularEndpoints(center6, radius6, Q);
         let S = perpendicular6.p1;
         let T = perpendicular6.p2;
-    
+
         if (isClusterShowB) {
             // 円を描画
             draw_ellipse(center6, radius6, "#0f0");
@@ -263,7 +263,7 @@ function draw() {
         }
 
         if (
-            isPointOnRectangle(A, Q, S, R, T) && 
+            isPointOnRectangle(A, Q, S, R, T) &&
             isPointOnRectangle(B, Q, S, R, T) &&
             isPointOnRectangle(C, Q, S, R, T) &&
             isPointOnRectangle(D, Q, S, R, T)
@@ -276,7 +276,7 @@ function draw() {
                 }
                 draw_rect(Q, S, R, T, "#f00");
             }
-            
+
         }
     }
 
@@ -322,7 +322,7 @@ function draw() {
         let perpendicular9 = calculatePerpendicularEndpoints(center9, radius9, Z);
         let BB = perpendicular9.p1;
         let CC = perpendicular9.p2;
-    
+
         if (isClusterShowC) {
             // 円を描画
             draw_ellipse(center9, radius9, "#00f");
@@ -338,7 +338,7 @@ function draw() {
         }
 
         if (
-            isPointOnRectangle(A, Z, BB, AA, CC) && 
+            isPointOnRectangle(A, Z, BB, AA, CC) &&
             isPointOnRectangle(B, Z, BB, AA, CC) &&
             isPointOnRectangle(C, Z, BB, AA, CC) &&
             isPointOnRectangle(D, Z, BB, AA, CC)
@@ -351,7 +351,7 @@ function draw() {
                 }
                 draw_rect(Z, BB, AA, CC, "#f00");
             }
-            
+
         }
     }
 
@@ -379,7 +379,7 @@ function draw() {
 
 /**
  * ランダムな整数を生成
- * 
+ *
  * @param {number} min - ランダムな数の最小値
  * @param {number} max - ランダムな数の最大値
  * @returns {number} - ランダムな整数
@@ -486,7 +486,7 @@ function calculateSlopeAndIntercept(p1, p2) {
  * 与えられた点のリストから最小および最大のx座標を持つ点を見つける
  *
  * @param {Array<{x: number, y: number}>} points - x座標とy座標を持つ点のオブジェクトの配列
- * @returns {{ minXPoint: {x: number, y: number}, maxXPoint: {x: number, y: number} }} 
+ * @returns {{ minXPoint: {x: number, y: number}, maxXPoint: {x: number, y: number} }}
  * - minXPoint: 最小のx座標を持つ点
  * - maxXPoint: 最大のx座標を持つ点
  */
@@ -522,19 +522,19 @@ function calculateCircleLineIntersection(center, radius, slope, intercept, point
     let b2 = 2 * (slope * (intercept - center.y) - center.x);
     let c2 =
       center.x * center.x +
-      (intercept - center.y) * (intercept - center.y) - 
+      (intercept - center.y) * (intercept - center.y) -
       radius * radius;
-  
+
     // 判別式
     let discriminant2 = b2 * b2 - 4 * a2 * c2;
     let returnPoint = null;
-  
+
     if (discriminant2 >= 0) {
       let x2_1 = (-b2 + sqrt(discriminant2)) / (2 * a2);
       let y2_1 = slope * x2_1 + intercept;
       let x2_2 = (-b2 - sqrt(discriminant2)) / (2 * a2);
       let y2_2 = slope * x2_2 + intercept;
-  
+
       // 交点を描画
       if (dist(x2_1, y2_1, point.x, point.y) > 1) {
         returnPoint = createVector(x2_1, y2_1);
@@ -581,7 +581,7 @@ function isPointOnRectangle(point, p1, p2, p3, p4) {
 
 /**
  * 2つの点の間のユークリッド距離の2乗を計算
- * 
+ *
  * @param {Object} p1 - 1つ目の点。{x, y}形式のオブジェクト。
  * @param {Object} p2 - 2つ目の点。{x, y}形式のオブジェクト。
  * @returns {number} 2つの点間の距離の2乗。
@@ -592,7 +592,7 @@ function distance(p1, p2) {
 
 /**
  * 4点が正方形かどうかを判定
- * 
+ *
  * @param {Object[]} points - 点の配列。各点は{x, y}形式のオブジェクト
  * @returns {boolean} 点が正方形を形成している場合はtrue、そうでない場合はfalse。
  */
@@ -606,7 +606,7 @@ function isSquare(points) {
 
     distances.sort((a, b) => a - b);
     return (
-        distances[0] > 0 && 
+        distances[0] > 0 &&
         distances[0] === distances[1] &&
         distances[1] === distances[2] &&
         distances[2] === distances[3] &&
@@ -698,7 +698,7 @@ function draw_straight_line(p1, p2, color) {
     let yStart = slope * 0 + intercept;
     // x座標がwidth（キャンバスの右端）のときのy座標を計算
     let yEnd = slope * width + intercept;
-  
+
     // 線を描画
     stroke(color);
     line(0, yStart, width, yEnd);
