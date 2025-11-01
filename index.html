@@ -5,57 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>4点を通る正方形を描く</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
   <main>
     <h1>4点を通る正方形を描く</h1>
 
-    <div>
+    <div class="input-group">
       <label for="Ax">Ax:</label>
       <input type="number" id="Ax" name="Ax" min="0" max="600" />
       <label for="Ay">Ay:</label>
       <input type="number" id="Ay" name="Ay" min="0" max="600" />
     </div>
-    <div>
+    <div class="input-group">
       <label for="Bx">Bx:</label>
       <input type="number" id="Bx" name="Bx" min="0" max="600" />
       <label for="By">By:</label>
       <input type="number" id="By" name="By" min="0" max="600" />
     </div>
-    <div>
+    <div class="input-group">
       <label for="Cx">Cx:</label>
       <input type="number" id="Cx" name="Cx" min="0" max="600" />
       <label for="Cy">Cy:</label>
       <input type="number" id="Cy" name="Cy" min="0" max="600" />
     </div>
-    <div>
+    <div class="input-group">
       <label for="Dx">Dx:</label>
       <input type="number" id="Dx" name="Dx" min="0" max="600" />
       <label for="Dy">Dy:</label>
       <input type="number" id="Dy" name="Dy" min="0" max="600" />
     </div>
-    <div>
-      <button onclick="changeAutoMove()">モード切り替え</button>
-      <!-- <button onclick="changeLineShow()">補助線表示切り替え</button> -->
-      <span>
-        <input type="checkbox" onchange="changeClusterShowA()" id="clusterA" name="clusterA" />
-        <label for="clusterA">補助線表示切り替えA</label>
-      </span>
-      <span>
-        <input type="checkbox" onchange="changeClusterShowB()" id="clusterB" name="clusterB" />
-        <label for="clusterB">補助線表示切り替えB</label>
-      </span>
-      <span>
-        <input type="checkbox" onchange="changeClusterShowC()" id="clusterC" name="clusterC" />
-        <label for="clusterC">補助線表示切り替えC</label>
-      </span>
-    </div>
-    <div>
-      <span>正方形生成率：</span>
-      <span>
+
+    <div class="controls">
+      <div class="button-group">
+        <button onclick="changeAutoMove()">モード切り替え</button>
+      </div>
+
+      <div class="checkbox-group">
+        <span>
+          <input type="checkbox" onchange="changeClusterShowA()" id="clusterA" name="clusterA" />
+          <label for="clusterA">補助線表示A</label>
+        </span>
+        <span>
+          <input type="checkbox" onchange="changeClusterShowB()" id="clusterB" name="clusterB" />
+          <label for="clusterB">補助線表示B</label>
+        </span>
+        <span>
+          <input type="checkbox" onchange="changeClusterShowC()" id="clusterC" name="clusterC" />
+          <label for="clusterC">補助線表示C</label>
+        </span>
+      </div>
+
+      <div class="meter-group">
+        <span>正方形生成率：</span>
         <meter id="meter" min="0" max="100" low="10" high="50" optimum="80" value="0"></meter>
-      </span>
-      <span id="meter_ratio">0.00%</span>
+        <span id="meter_ratio">0.00%</span>
+      </div>
     </div>
   </main>
 
