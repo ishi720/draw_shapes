@@ -61,15 +61,15 @@ h1 {
 .controls {
     margin-top: 25px;
     padding-top: 20px;
-    border-top: 1px solid #e0e0e0;
 }
 
 .button-group {
     margin-bottom: 15px;
+    text-align: center;
 }
 
 button {
-    background-color: #4CAF50;
+    background-color: #333;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -80,7 +80,7 @@ button {
 }
 
 button:hover {
-    background-color: #45a049;
+    opacity: 0.8;
 }
 
 .checkbox-group {
