@@ -44,7 +44,8 @@ function update() {
 }
 
 function setup() {
-    createCanvas(600, 600);
+    let canvas = createCanvas(600, 600);
+    canvas.parent('canvas-container');
     background(50);
 
     Object.keys(points).forEach(key => {
