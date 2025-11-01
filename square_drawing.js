@@ -25,6 +25,8 @@ let isDisplayingCount = 0;
 
 function changeAutoMove() {
     isAutoMove = !isAutoMove;
+    const btn = document.getElementById('autoMoveBtn');
+    btn.textContent = isAutoMove ? '▶' : '⏸';
 }
 function changeClusterShowA () {
     isClusterShowA = !isClusterShowA;
