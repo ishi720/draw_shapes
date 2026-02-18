@@ -33,7 +33,8 @@ function changeClusterShow(key) {
 }
 function update() {
     for (let key in points) {
-        points[key] = parseInt(document.getElementById(key).value);
+        points[key].x = parseInt(document.getElementById(`${key}x`).value);
+        points[key].y = parseInt(document.getElementById(`${key}y`).value);
     }
 }
 
