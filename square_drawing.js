@@ -10,7 +10,7 @@ let points = {
 };
 
 
-let isClusterShow = { A: false, B: false, C: false };
+let isClusterShow = { "AB-CD": false, "AC-BD": false, "AD-BC": false };
 
 let velocities = {
     A: { vx: getRandomValue(-SPEED_RANGE, SPEED_RANGE), vy: getRandomValue(-SPEED_RANGE, SPEED_RANGE) },
@@ -85,9 +85,9 @@ function draw() {
     let D = points.D;
 
     // 3通りのペアの組み合わせから正方形を探索
-    tryFindSquareFromPairs(A, B, C, D, isClusterShow.A, "#f0f");
-    tryFindSquareFromPairs(A, C, B, D, isClusterShow.B, "#0f0");
-    tryFindSquareFromPairs(A, D, B, C, isClusterShow.C, "#00f");
+    tryFindSquareFromPairs(A, B, C, D, isClusterShow["AB-CD"], "#f0f");
+    tryFindSquareFromPairs(A, C, B, D, isClusterShow["AC-BD"], "#0f0");
+    tryFindSquareFromPairs(A, D, B, C, isClusterShow["AD-BC"], "#00f");
 
     if (isSquare([A,B,C,D])) {
         let square = sortPointsClockwise([A,B,C,D]);
