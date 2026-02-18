@@ -31,6 +31,21 @@ function changeAutoMove() {
     const btn = document.getElementById('autoMoveBtn');
     btn.textContent = isAutoMove ? '▶' : '⏸';
 }
+function reload() {
+    Object.keys(points).forEach(key => {
+        points[key].x = getRandomValue(0, CANVAS_SIZE);
+        points[key].y = getRandomValue(0, CANVAS_SIZE);
+        velocities[key].vx = getRandomValue(-SPEED_RANGE, SPEED_RANGE);
+        velocities[key].vy = getRandomValue(-SPEED_RANGE, SPEED_RANGE);
+        ['x', 'y'].forEach(axis => {
+            document.getElementById(`${key}${axis}`).value = points[key][axis];
+        });
+    });
+    fpsCount = 0;
+    isDisplayingCount = 0;
+    document.getElementById("meter_ratio").textContent = "0.00%";
+    document.getElementById("meter").value = 0;
+}
 function changeClusterShow(key) {
     isClusterShow[key] = !isClusterShow[key];
 }
