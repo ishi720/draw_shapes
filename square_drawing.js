@@ -11,10 +11,12 @@ let isClusterShowA = false;
 let isClusterShowB = false;
 let isClusterShowC = false;
 
-let velocityA = { vx: getRandomValue(-5, 5), vy: getRandomValue(-5, 5) };
-let velocityB = { vx: getRandomValue(-5, 5), vy: getRandomValue(-5, 5) };
-let velocityC = { vx: getRandomValue(-5, 5), vy: getRandomValue(-5, 5) };
-let velocityD = { vx: getRandomValue(-5, 5), vy: getRandomValue(-5, 5) };
+let velocities = {
+    A: { vx: getRandomValue(-5, 5), vy: getRandomValue(-5, 5) },
+    B: { vx: getRandomValue(-5, 5), vy: getRandomValue(-5, 5) },
+    C: { vx: getRandomValue(-5, 5), vy: getRandomValue(-5, 5) },
+    D: { vx: getRandomValue(-5, 5), vy: getRandomValue(-5, 5) }
+};
 
 let isDisplaying = false;
 
@@ -72,10 +74,9 @@ function draw() {
         document.getElementById("meter").value = (isDisplayingCount/fpsCount * 100).toFixed(2);
 
         // 点の位置を更新
-        updatePosition(points.A, velocityA);
-        updatePosition(points.B, velocityB);
-        updatePosition(points.C, velocityC);
-        updatePosition(points.D, velocityD);
+        Object.keys(points).forEach(key => {
+            updatePosition(points[key], velocities[key]);
+        });
 
         // 入力ボックスの値を更新
         Object.keys(points).forEach(key => {
