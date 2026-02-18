@@ -92,253 +92,14 @@ function draw() {
     let C = points.C;
     let D = points.D;
 
-    // 2点に接する円を定義
-    let center1 = calculateMidpoint(A, B);
-    let radius1 = calculateRadius(A, B);
-
-    let center2 = calculateMidpoint(C, D);
-    let radius2 = calculateRadius(C, D);
-
-    // 垂直二等分線の交点を計算
-    let perpendicular1 = calculatePerpendicularEndpoints(center1, radius1, A);
-    let E = perpendicular1.p1;
-    let F = perpendicular1.p2;
-
-    let perpendicular2 = calculatePerpendicularEndpoints(center2, radius2, C);
-    let G = perpendicular2.p1;
-    let H = perpendicular2.p2;
-
-    // 直線と円の第二の交点
-    let nearPoint1 = findClosestPoint(center2, E, F);
-    let nearPoint2 = findClosestPoint(center1, G, H);
-
-    let { slope, intercept } = calculateSlopeAndIntercept(nearPoint1, nearPoint2);
-    let I = calculateCircleLineIntersection(center1, radius1, slope, intercept, nearPoint1);
-    let J = calculateCircleLineIntersection(center2, radius2, slope, intercept, nearPoint2);
-
-    if (isClusterShowA) {
-        // 円を描画
-        draw_ellipse(center1, radius1, "#fff");
-        draw_ellipse(center2, radius2, "#fff");
-
-        // 直線を描画
-        draw_straight_line(A, B, "#fff");
-        draw_straight_line(C, D, "#fff");
-        draw_straight_line(E, F, "#fff");
-        draw_straight_line(G, H, "#fff");
-        draw_straight_line(nearPoint1, nearPoint2, "#ff0");
-
-        // 点とラベルを描画
-        draw_point(E, "E", "#ff0");
-        draw_point(F, "F", "#ff0");
-        draw_point(G, "G", "#ff0");
-        draw_point(H, "H", "#ff0");
-    }
-
-    if (I && J) {
-        let { minXPoint, maxXPoint } = findExtremeXPoints([I,J,E,H]);
-        I = maxXPoint;
-        J = minXPoint;
-
-        // 第二の交点に接する円を定義
-        let center3 = calculateMidpoint(I, J);
-        let radius3 = calculateRadius(I, J);
-
-        // 垂直二等分線の交点を計算
-        let perpendicular3 = calculatePerpendicularEndpoints(center3, radius3, I);
-        let K = perpendicular3.p1;
-        let L = perpendicular3.p2;
-
-        if (isClusterShowA) {
-            // 円を描画
-            draw_ellipse(center3, radius3, "#f0f");
-
-            // 直線を描画
-            // draw_straight_line(K, L, "#f0f");
-
-            // 点とラベルを描画
-            draw_point(I, "I", "#f0f");
-            draw_point(J, "J", "#f0f");
-            draw_point(K, "K", "#f0f");
-            draw_point(L, "L", "#f0f");
-        }
-
-        if (
-            isPointOnRectangle(A, I, K, J, L) &&
-            isPointOnRectangle(B, I, K, J, L) &&
-            isPointOnRectangle(C, I, K, J, L) &&
-            isPointOnRectangle(D, I, K, J, L)
-        ) {
-            // 四角形を描画
-            if (!isDisplaying) {
-                isDisplaying = true;
-                if (isAutoMove) {
-                    isDisplayingCount++;
-                }
-                draw_rect(I, K, J, L, "#f00");
-            }
-        }
-    }
-
-    // 二つ目
-    let center4 = calculateMidpoint(A, C);
-    let radius4 = calculateRadius(A, C);
-
-    let center5 = calculateMidpoint(B, D);
-    let radius5 = calculateRadius(B, D);
-
-    let perpendicular3 = calculatePerpendicularEndpoints(center4, radius4, A);
-    let M = perpendicular3.p1;
-    let N = perpendicular3.p2;
-
-    let perpendicular4 = calculatePerpendicularEndpoints(center5, radius5, B);
-    let O = perpendicular4.p1;
-    let P = perpendicular4.p2;
-
-    // 直線と円の第二の交点
-    let nearPoint3 = findClosestPoint(center5, M, N);
-    let nearPoint4 = findClosestPoint(center4, O, P);
-
-    let aaaaa = calculateSlopeAndIntercept(nearPoint3, nearPoint4);
-    let Q = calculateCircleLineIntersection(center4, radius4, aaaaa.slope, aaaaa.intercept, nearPoint3);
-    let R = calculateCircleLineIntersection(center5, radius5, aaaaa.slope, aaaaa.intercept, nearPoint4);
-
-    if (isClusterShowB) {
-        draw_ellipse(center4, radius4, "#fff");
-        draw_ellipse(center5, radius5, "#fff");
-        draw_straight_line(nearPoint3, nearPoint4, "#ff0");
-    }
-
-    if (Q && R) {
-        let eeeee = findExtremeXPoints([Q,R,N,P]);
-        Q = eeeee.maxXPoint;
-        R = eeeee.minXPoint;
-
-        // 第二の交点に接する円を定義
-        let center6 = calculateMidpoint(Q, R);
-        let radius6 = calculateRadius(Q, R);
-
-        // 垂直二等分線の交点を計算
-        let perpendicular6 = calculatePerpendicularEndpoints(center6, radius6, Q);
-        let S = perpendicular6.p1;
-        let T = perpendicular6.p2;
-
-        if (isClusterShowB) {
-            // 円を描画
-            draw_ellipse(center6, radius6, "#0f0");
-
-            draw_point(M, "M", "#ff0");
-            draw_point(P, "P", "#ff0");
-            draw_point(O, "O", "#ff0");
-            draw_point(N, "N", "#ff0");
-            draw_point(Q, "Q", "#0f0");
-            draw_point(R, "R", "#0f0");
-            draw_point(S, "S", "#0f0");
-            draw_point(T, "T", "#0f0");
-        }
-
-        if (
-            isPointOnRectangle(A, Q, S, R, T) &&
-            isPointOnRectangle(B, Q, S, R, T) &&
-            isPointOnRectangle(C, Q, S, R, T) &&
-            isPointOnRectangle(D, Q, S, R, T)
-        ) {
-            // 四角形を描画
-            if (!isDisplaying) {
-                isDisplaying = true;
-                if (isAutoMove) {
-                    isDisplayingCount++;
-                }
-                draw_rect(Q, S, R, T, "#f00");
-            }
-
-        }
-    }
-
-    // 3つ目
-    let center7 = calculateMidpoint(A, D);
-    let radius7 = calculateRadius(A, D);
-
-    let center8 = calculateMidpoint(B, C);
-    let radius8 = calculateRadius(B, C);
-
-    let perpendicular5 = calculatePerpendicularEndpoints(center7, radius7, A);
-    let U = perpendicular5.p1;
-    let V = perpendicular5.p2;
-
-    let perpendicular6 = calculatePerpendicularEndpoints(center8, radius8, B);
-    let W = perpendicular6.p1;
-    let X = perpendicular6.p2;
-
-    // 直線と円の第二の交点
-    let nearPoint5 = findClosestPoint(center5, U, V);
-    let nearPoint6 = findClosestPoint(center4, W, X);
-
-    let bbbbb = calculateSlopeAndIntercept(nearPoint5, nearPoint6);
-    let Z = calculateCircleLineIntersection(center7, radius7, bbbbb.slope, bbbbb.intercept, nearPoint5);
-    let AA = calculateCircleLineIntersection(center8, radius8, bbbbb.slope, bbbbb.intercept, nearPoint6);
-
-    if (isClusterShowC) {
-        draw_ellipse(center7, radius7, "#fff");
-        draw_ellipse(center8, radius8, "#fff");
-        draw_straight_line(nearPoint5, nearPoint6, "#ff0");
-    }
-
-    if (Z && AA) {
-        let eeeee = findExtremeXPoints([Z,AA,V,X]);
-        Z = eeeee.maxXPoint;
-        AA = eeeee.minXPoint;
-
-        // 第二の交点に接する円を定義
-        let center9 = calculateMidpoint(Z, AA);
-        let radius9 = calculateRadius(Z, AA);
-
-        // 垂直二等分線の交点を計算
-        let perpendicular9 = calculatePerpendicularEndpoints(center9, radius9, Z);
-        let BB = perpendicular9.p1;
-        let CC = perpendicular9.p2;
-
-        if (isClusterShowC) {
-            // 円を描画
-            draw_ellipse(center9, radius9, "#00f");
-
-            draw_point(U, "U", "#ff0");
-            draw_point(V, "V", "#ff0");
-            draw_point(W, "W", "#ff0");
-            draw_point(X, "X", "#ff0");
-            draw_point(Z, "Z", "#0f0");
-            draw_point(AA, "AA", "#0f0");
-            draw_point(BB, "BB", "#0f0");
-            draw_point(CC, "CC", "#0f0");
-        }
-
-        if (
-            isPointOnRectangle(A, Z, BB, AA, CC) &&
-            isPointOnRectangle(B, Z, BB, AA, CC) &&
-            isPointOnRectangle(C, Z, BB, AA, CC) &&
-            isPointOnRectangle(D, Z, BB, AA, CC)
-        ) {
-            // 四角形を描画
-            if (!isDisplaying) {
-                isDisplaying = true;
-                if (isAutoMove) {
-                    isDisplayingCount++;
-                }
-                draw_rect(Z, BB, AA, CC, "#f00");
-            }
-
-        }
-    }
+    // 3通りのペアの組み合わせから正方形を探索
+    tryFindSquareFromPairs(A, B, C, D, isClusterShowA, "#f0f");
+    tryFindSquareFromPairs(A, C, B, D, isClusterShowB, "#0f0");
+    tryFindSquareFromPairs(A, D, B, C, isClusterShowC, "#00f");
 
     if (isSquare([A,B,C,D])) {
         let square = sortPointsClockwise([A,B,C,D]);
-        if (!isDisplaying) {
-            isDisplaying = true;
-            if (isAutoMove) {
-                isDisplayingCount++;
-            }
-            draw_rect(square[0], square[1], square[2], square[3], "#f00");
-        }
+        tryDisplayRect(square[0], square[1], square[2], square[3]);
     }
 
     // 点とラベルを描画
@@ -346,6 +107,99 @@ function draw() {
     draw_point(B, "B", "#f00");
     draw_point(C, "C", "#f00");
     draw_point(D, "D", "#f00");
+}
+
+/**
+ * 2つの点ペアから正方形の頂点を探索し、見つかれば描画する
+ *
+ * @param {p5.Vector} pair1a - ペア1の1つ目の点
+ * @param {p5.Vector} pair1b - ペア1の2つ目の点
+ * @param {p5.Vector} pair2a - ペア2の1つ目の点
+ * @param {p5.Vector} pair2b - ペア2の2つ目の点
+ * @param {boolean} isClusterShow - デバッグ描画を表示するかどうか
+ * @param {string} debugColor - デバッグ描画の色
+ */
+function tryFindSquareFromPairs(pair1a, pair1b, pair2a, pair2b, isClusterShow, debugColor) {
+    // 2点に接する円を定義
+    let center1 = calculateMidpoint(pair1a, pair1b);
+    let radius1 = calculateRadius(pair1a, pair1b);
+
+    let center2 = calculateMidpoint(pair2a, pair2b);
+    let radius2 = calculateRadius(pair2a, pair2b);
+
+    // 垂直二等分線の端点を計算
+    let perp1 = calculatePerpendicularEndpoints(center1, radius1, pair1a);
+    let perp2 = calculatePerpendicularEndpoints(center2, radius2, pair2a);
+
+    // 直線と円の第二の交点
+    let nearPoint1 = findClosestPoint(center2, perp1.p1, perp1.p2);
+    let nearPoint2 = findClosestPoint(center1, perp2.p1, perp2.p2);
+
+    let { slope, intercept } = calculateSlopeAndIntercept(nearPoint1, nearPoint2);
+    let intersect1 = calculateCircleLineIntersection(center1, radius1, slope, intercept, nearPoint1);
+    let intersect2 = calculateCircleLineIntersection(center2, radius2, slope, intercept, nearPoint2);
+
+    if (isClusterShow) {
+        draw_ellipse(center1, radius1, "#fff");
+        draw_ellipse(center2, radius2, "#fff");
+        draw_straight_line(pair1a, pair1b, "#fff");
+        draw_straight_line(pair2a, pair2b, "#fff");
+        draw_straight_line(perp1.p1, perp1.p2, "#fff");
+        draw_straight_line(perp2.p1, perp2.p2, "#fff");
+        draw_straight_line(nearPoint1, nearPoint2, "#ff0");
+        draw_point(perp1.p1, "", "#ff0");
+        draw_point(perp1.p2, "", "#ff0");
+        draw_point(perp2.p1, "", "#ff0");
+        draw_point(perp2.p2, "", "#ff0");
+    }
+
+    if (intersect1 && intersect2) {
+        let { minXPoint, maxXPoint } = findExtremeXPoints([intersect1, intersect2, perp1.p2, perp2.p2]);
+        intersect1 = maxXPoint;
+        intersect2 = minXPoint;
+
+        // 第二の交点に接する円を定義
+        let center3 = calculateMidpoint(intersect1, intersect2);
+        let radius3 = calculateRadius(intersect1, intersect2);
+
+        // 垂直二等分線の交点を計算
+        let perp3 = calculatePerpendicularEndpoints(center3, radius3, intersect1);
+
+        if (isClusterShow) {
+            draw_ellipse(center3, radius3, debugColor);
+            draw_point(intersect1, "", debugColor);
+            draw_point(intersect2, "", debugColor);
+            draw_point(perp3.p1, "", debugColor);
+            draw_point(perp3.p2, "", debugColor);
+        }
+
+        if (
+            isPointOnRectangle(points.A, intersect1, perp3.p1, intersect2, perp3.p2) &&
+            isPointOnRectangle(points.B, intersect1, perp3.p1, intersect2, perp3.p2) &&
+            isPointOnRectangle(points.C, intersect1, perp3.p1, intersect2, perp3.p2) &&
+            isPointOnRectangle(points.D, intersect1, perp3.p1, intersect2, perp3.p2)
+        ) {
+            tryDisplayRect(intersect1, perp3.p1, intersect2, perp3.p2);
+        }
+    }
+}
+
+/**
+ * 正方形が未表示なら描画し、表示フラグを更新する
+ *
+ * @param {p5.Vector} p1 - 頂点1
+ * @param {p5.Vector} p2 - 頂点2
+ * @param {p5.Vector} p3 - 頂点3
+ * @param {p5.Vector} p4 - 頂点4
+ */
+function tryDisplayRect(p1, p2, p3, p4) {
+    if (!isDisplaying) {
+        isDisplaying = true;
+        if (isAutoMove) {
+            isDisplayingCount++;
+        }
+        draw_rect(p1, p2, p3, p4, "#f00");
+    }
 }
 
 /***********************************************/
