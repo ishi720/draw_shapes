@@ -29,10 +29,6 @@
 `index.html` をブラウザで直接開くか、ローカルサーバーを使用します。
 
 ```bash
-# Python
-python -m http.server 8000
-
-# Node.js
 npx http-server
 ```
 
