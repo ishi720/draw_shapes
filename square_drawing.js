@@ -229,34 +229,15 @@ function calculateRadius(p1, p2) {
 }
 
 /**
- * 円の中心と点の距離を計算する関数。
- *
- * @param {p5.Vector} center - 円の中心を表すp5.Vectorオブジェクト。
- * @param {p5.Vector} point - 点を表すp5.Vectorオブジェクト。
- * @returns {number} - 円の中心と点の距離。
- */
-function calculateDistance(center, point) {
-    return center.dist(point);
-}
-
-/**
  * 2つの点のうち、円の中心に近い点を判定する関数
  *
  * @param {p5.Vector} center - 円の中心を表すp5.Vectorオブジェクト
  * @param {p5.Vector} point1 - 点1を表すp5.Vectorオブジェクト
  * @param {p5.Vector} point2 - 点2を表すp5.Vectorオブジェクト
  * @returns {p5.Vector} - 最も近いp5.Vectorオブジェクト
-
  */
 function findClosestPoint(center, point1, point2) {
-    const distance1 = calculateDistance(center, point1);
-    const distance2 = calculateDistance(center, point2);
-    // 最も近い点を判定
-    if (distance1 < distance2) {
-      return point1;
-    } else {
-      return point2;
-    }
+    return center.dist(point1) < center.dist(point2) ? point1 : point2;
 }
 
 /**
@@ -300,22 +281,22 @@ function calculateSlopeAndIntercept(p1, p2) {
 /**
  * 与えられた点のリストから最小および最大のx座標を持つ点を見つける
  *
- * @param {Array<{x: number, y: number}>} points - x座標とy座標を持つ点のオブジェクトの配列
+ * @param {Array<{x: number, y: number}>} targetPoints - x座標とy座標を持つ点のオブジェクトの配列
  * @returns {{ minXPoint: {x: number, y: number}, maxXPoint: {x: number, y: number} }}
  * - minXPoint: 最小のx座標を持つ点
  * - maxXPoint: 最大のx座標を持つ点
  */
-function findExtremeXPoints(points) {
-    let minXPoint = points[0];
-    let maxXPoint = points[0];
+function findExtremeXPoints(targetPoints) {
+    let minXPoint = targetPoints[0];
+    let maxXPoint = targetPoints[0];
 
     // 各点のx座標を比較して最小と最大の点を探す
-    for (let i = 1; i < points.length; i++) {
-        if (points[i].x < minXPoint.x) {
-            minXPoint = points[i];
+    for (let i = 1; i < targetPoints.length; i++) {
+        if (targetPoints[i].x < minXPoint.x) {
+            minXPoint = targetPoints[i];
         }
-        if (points[i].x > maxXPoint.x) {
-            maxXPoint = points[i];
+        if (targetPoints[i].x > maxXPoint.x) {
+            maxXPoint = targetPoints[i];
         }
     }
     return { minXPoint, maxXPoint };
@@ -377,14 +358,12 @@ function calculateIntersectionPoints(a, b, discriminant, slope, intercept) {
 }
 
 /**
- * 四角形と点が接しているかどうかを判定
+ * 点が線分上にあるかどうかを判定
  *
+ * @param {p5.Vector} p1 - 線分の始点
+ * @param {p5.Vector} p2 - 線分の終点
  * @param {p5.Vector} point - 判定する点の座標
- * @param {p5.Vector} p1 - 四角形の1つ目の頂点
- * @param {p5.Vector} p2 - 四角形の2つ目の頂点
- * @param {p5.Vector} p3 - 四角形の3つ目の頂点
- * @param {p5.Vector} p4 - 四角形の4つ目の頂点
- * @returns {boolean} - 四角形に接していればtrue、そうでなければfalse
+ * @returns {boolean} - 線分上にあればtrue、そうでなければfalse
  */
 function isPointOnLineSegment(p1, p2, point) {
     let crossProduct = (point.y - p1.y) * (p2.x - p1.x) - (point.x - p1.x) * (p2.y - p1.y);
@@ -423,14 +402,14 @@ function distanceSquared(p1, p2) {
 /**
  * 4点が正方形かどうかを判定
  *
- * @param {Object[]} points - 点の配列。各点は{x, y}形式のオブジェクト
+ * @param {Object[]} targetPoints - 点の配列。各点は{x, y}形式のオブジェクト
  * @returns {boolean} 点が正方形を形成している場合はtrue、そうでない場合はfalse。
  */
-function isSquare(points) {
+function isSquare(targetPoints) {
     let distances = [];
-    for (let i = 0; i < points.length; i++) {
-        for (let j = i + 1; j < points.length; j++) {
-            distances.push(distanceSquared(points[i], points[j]));
+    for (let i = 0; i < targetPoints.length; i++) {
+        for (let j = i + 1; j < targetPoints.length; j++) {
+            distances.push(distanceSquared(targetPoints[i], targetPoints[j]));
         }
     }
 
