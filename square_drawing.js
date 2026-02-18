@@ -69,16 +69,11 @@ function draw() {
         document.getElementById("meter_ratio").textContent = (isDisplayingCount/fpsCount * 100).toFixed(2) + "%";
         document.getElementById("meter").value = (isDisplayingCount/fpsCount * 100).toFixed(2);
 
-        // 点の位置を更新
+        // 点の位置を更新し、入力ボックスの値を反映
         Object.keys(points).forEach(key => {
             updatePosition(points[key], velocities[key]);
-        });
-
-        // 入力ボックスの値を更新
-        Object.keys(points).forEach(key => {
             ['x', 'y'].forEach(axis => {
-                let input = document.getElementById(`${key}${axis}`);
-                input.value = points[key][axis];
+                document.getElementById(`${key}${axis}`).value = points[key][axis];
             });
         });
     }
@@ -391,21 +386,20 @@ function calculateIntersectionPoints(a, b, discriminant, slope, intercept) {
  * @param {p5.Vector} p4 - 四角形の4つ目の頂点
  * @returns {boolean} - 四角形に接していればtrue、そうでなければfalse
  */
+function isPointOnLineSegment(p1, p2, point) {
+    let crossProduct = (point.y - p1.y) * (p2.x - p1.x) - (point.x - p1.x) * (p2.y - p1.y);
+    if (Math.abs(crossProduct) > 1e-6) return false; // 点が直線上にない場合
+
+    let dotProduct = (point.x - p1.x) * (p2.x - p1.x) + (point.y - p1.y) * (p2.y - p1.y);
+    if (dotProduct < 0) return false; // 点がp1より左側にある場合
+
+    let squaredLength = (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y);
+    if (dotProduct > squaredLength) return false; // 点がp2より右側にある場合
+
+    return true; // 点が線分上にある場合
+}
+
 function isPointOnRectangle(point, p1, p2, p3, p4) {
-    // 四角形の辺が点と接しているかどうかを判定
-    function isPointOnLineSegment(p1, p2, point) {
-        let crossProduct = (point.y - p1.y) * (p2.x - p1.x) - (point.x - p1.x) * (p2.y - p1.y);
-        if (Math.abs(crossProduct) > 1e-6) return false; // 点が直線上にない場合
-
-        let dotProduct = (point.x - p1.x) * (p2.x - p1.x) + (point.y - p1.y) * (p2.y - p1.y);
-        if (dotProduct < 0) return false; // 点がp1より左側にある場合
-
-        let squaredLength = (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y);
-        if (dotProduct > squaredLength) return false; // 点がp2より右側にある場合
-
-        return true; // 点が線分上にある場合
-    }
-
     // 四角形の各辺が点と接しているかをチェック
     return (
         isPointOnLineSegment(p1, p2, point) ||
