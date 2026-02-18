@@ -1,19 +1,22 @@
+const CANVAS_SIZE = 600;
+const SPEED_RANGE = 5;
+
 // 点の位置
 let points = {
-    A: { x: getRandomValue(0, 600), y: getRandomValue(0, 600) },
-    B: { x: getRandomValue(0, 600), y: getRandomValue(0, 600) },
-    C: { x: getRandomValue(0, 600), y: getRandomValue(0, 600) },
-    D: { x: getRandomValue(0, 600), y: getRandomValue(0, 600) }
+    A: { x: getRandomValue(0, CANVAS_SIZE), y: getRandomValue(0, CANVAS_SIZE) },
+    B: { x: getRandomValue(0, CANVAS_SIZE), y: getRandomValue(0, CANVAS_SIZE) },
+    C: { x: getRandomValue(0, CANVAS_SIZE), y: getRandomValue(0, CANVAS_SIZE) },
+    D: { x: getRandomValue(0, CANVAS_SIZE), y: getRandomValue(0, CANVAS_SIZE) }
 };
 
 
 let isClusterShow = { A: false, B: false, C: false };
 
 let velocities = {
-    A: { vx: getRandomValue(-5, 5), vy: getRandomValue(-5, 5) },
-    B: { vx: getRandomValue(-5, 5), vy: getRandomValue(-5, 5) },
-    C: { vx: getRandomValue(-5, 5), vy: getRandomValue(-5, 5) },
-    D: { vx: getRandomValue(-5, 5), vy: getRandomValue(-5, 5) }
+    A: { vx: getRandomValue(-SPEED_RANGE, SPEED_RANGE), vy: getRandomValue(-SPEED_RANGE, SPEED_RANGE) },
+    B: { vx: getRandomValue(-SPEED_RANGE, SPEED_RANGE), vy: getRandomValue(-SPEED_RANGE, SPEED_RANGE) },
+    C: { vx: getRandomValue(-SPEED_RANGE, SPEED_RANGE), vy: getRandomValue(-SPEED_RANGE, SPEED_RANGE) },
+    D: { vx: getRandomValue(-SPEED_RANGE, SPEED_RANGE), vy: getRandomValue(-SPEED_RANGE, SPEED_RANGE) }
 };
 
 let isDisplaying = false;
@@ -39,7 +42,7 @@ function update() {
 }
 
 function setup() {
-    let canvas = createCanvas(600, 600);
+    let canvas = createCanvas(CANVAS_SIZE, CANVAS_SIZE);
     canvas.parent('canvas-container');
     background(50);
 
