@@ -7,9 +7,7 @@ let points = {
 };
 
 
-let isClusterShowA = false;
-let isClusterShowB = false;
-let isClusterShowC = false;
+let isClusterShow = { A: false, B: false, C: false };
 
 let velocities = {
     A: { vx: getRandomValue(-5, 5), vy: getRandomValue(-5, 5) },
@@ -30,14 +28,8 @@ function changeAutoMove() {
     const btn = document.getElementById('autoMoveBtn');
     btn.textContent = isAutoMove ? '▶' : '⏸';
 }
-function changeClusterShowA () {
-    isClusterShowA = !isClusterShowA;
-}
-function changeClusterShowB () {
-    isClusterShowB = !isClusterShowB;
-}
-function changeClusterShowC () {
-    isClusterShowC = !isClusterShowC;
+function changeClusterShow(key) {
+    isClusterShow[key] = !isClusterShow[key];
 }
 function update() {
     for (let key in points) {
@@ -94,9 +86,9 @@ function draw() {
     let D = points.D;
 
     // 3通りのペアの組み合わせから正方形を探索
-    tryFindSquareFromPairs(A, B, C, D, isClusterShowA, "#f0f");
-    tryFindSquareFromPairs(A, C, B, D, isClusterShowB, "#0f0");
-    tryFindSquareFromPairs(A, D, B, C, isClusterShowC, "#00f");
+    tryFindSquareFromPairs(A, B, C, D, isClusterShow.A, "#f0f");
+    tryFindSquareFromPairs(A, C, B, D, isClusterShow.B, "#0f0");
+    tryFindSquareFromPairs(A, D, B, C, isClusterShow.C, "#00f");
 
     if (isSquare([A,B,C,D])) {
         let square = sortPointsClockwise([A,B,C,D]);
