@@ -419,7 +419,7 @@ function isPointOnRectangle(point, p1, p2, p3, p4) {
  * @param {Object} p2 - 2つ目の点。{x, y}形式のオブジェクト。
  * @returns {number} 2つの点間の距離の2乗。
  */
-function distance(p1, p2) {
+function distanceSquared(p1, p2) {
     return (p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2;
 }
 
@@ -433,7 +433,7 @@ function isSquare(points) {
     let distances = [];
     for (let i = 0; i < points.length; i++) {
         for (let j = i + 1; j < points.length; j++) {
-            distances.push(distance(points[i], points[j]));
+            distances.push(distanceSquared(points[i], points[j]));
         }
     }
 
