@@ -97,10 +97,7 @@ function draw() {
     }
 
     // 点とラベルを描画
-    draw_point(A, "A", "#f00");
-    draw_point(B, "B", "#f00");
-    draw_point(C, "C", "#f00");
-    draw_point(D, "D", "#f00");
+    Object.entries(points).forEach(([key, p]) => draw_point(p, key, "#f00"));
 }
 
 /**
@@ -167,12 +164,9 @@ function tryFindSquareFromPairs(pair1a, pair1b, pair2a, pair2b, isClusterShow, d
             draw_point(perp3.p2, "", debugColor);
         }
 
-        if (
-            isPointOnRectangle(points.A, intersect1, perp3.p1, intersect2, perp3.p2) &&
-            isPointOnRectangle(points.B, intersect1, perp3.p1, intersect2, perp3.p2) &&
-            isPointOnRectangle(points.C, intersect1, perp3.p1, intersect2, perp3.p2) &&
-            isPointOnRectangle(points.D, intersect1, perp3.p1, intersect2, perp3.p2)
-        ) {
+        if (Object.values(points).every(p =>
+            isPointOnRectangle(p, intersect1, perp3.p1, intersect2, perp3.p2)
+        )) {
             tryDisplayRect(intersect1, perp3.p1, intersect2, perp3.p2);
         }
     }
