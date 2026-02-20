@@ -37,10 +37,8 @@ function reload() {
         points[key].y = getRandomValue(0, CANVAS_SIZE);
         velocities[key].vx = getRandomValue(-SPEED_RANGE, SPEED_RANGE);
         velocities[key].vy = getRandomValue(-SPEED_RANGE, SPEED_RANGE);
-        ['x', 'y'].forEach(axis => {
-            document.getElementById(`${key}${axis}`).value = points[key][axis];
-        });
     });
+    syncInputsFromPoints();
     fpsCount = 0;
     isDisplayingCount = 0;
     document.getElementById("meter_ratio").textContent = "0.00%";
@@ -61,13 +59,11 @@ function setup() {
     canvas.parent('canvas-container');
     background(50);
 
+    syncInputsFromPoints();
     Object.keys(points).forEach(key => {
         ['x', 'y'].forEach(axis => {
-            let input = document.getElementById(`${key}${axis}`);
-            input.value = points[key][axis];
-            input.addEventListener('input', update);
+            document.getElementById(`${key}${axis}`).addEventListener('input', update);
         });
-
     });
 }
 
@@ -87,10 +83,8 @@ function draw() {
         // 点の位置を更新し、入力ボックスの値を反映
         Object.keys(points).forEach(key => {
             updatePosition(points[key], velocities[key]);
-            ['x', 'y'].forEach(axis => {
-                document.getElementById(`${key}${axis}`).value = points[key][axis];
-            });
         });
+        syncInputsFromPoints();
     }
 
     // 点の座標をベクトルとして定義
@@ -201,6 +195,17 @@ function tryDisplayRect(p1, p2, p3, p4) {
         }
         draw_rect(p1, p2, p3, p4, "#f00");
     }
+}
+
+/**
+ * 点の座標を入力ボックスに反映する
+ */
+function syncInputsFromPoints() {
+    Object.keys(points).forEach(key => {
+        ['x', 'y'].forEach(axis => {
+            document.getElementById(`${key}${axis}`).value = points[key][axis];
+        });
+    });
 }
 
 /***********************************************/
