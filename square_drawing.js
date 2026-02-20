@@ -87,19 +87,14 @@ function draw() {
         syncInputsFromPoints();
     }
 
-    // 点の座標をベクトルとして定義
-    let A = points.A;
-    let B = points.B;
-    let C = points.C;
-    let D = points.D;
-
     // 3通りのペアの組み合わせから正方形を探索
+    let { A, B, C, D } = points;
     tryFindSquareFromPairs(A, B, C, D, isClusterShow["AB-CD"], "#f0f");
     tryFindSquareFromPairs(A, C, B, D, isClusterShow["AC-BD"], "#0f0");
     tryFindSquareFromPairs(A, D, B, C, isClusterShow["AD-BC"], "#00f");
 
-    if (isSquare([A,B,C,D])) {
-        let square = sortPointsClockwise([A,B,C,D]);
+    if (isSquare([A, B, C, D])) {
+        let square = sortPointsClockwise([A, B, C, D]);
         tryDisplayRect(square[0], square[1], square[2], square[3]);
     }
 
