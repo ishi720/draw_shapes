@@ -463,13 +463,11 @@ function sortPointsClockwise(points) {
     let center = createVector(centerX, centerY);
 
     // 点を角度でソート
-    points.sort((a, b) => {
+    return [...points].sort((a, b) => {
         let angleA = Math.atan2(a.y - center.y, a.x - center.x);
         let angleB = Math.atan2(b.y - center.y, b.x - center.x);
         return angleB - angleA; // 角度が大きい順にソート（時計回り）
     });
-
-    return points;
 }
 
 /**
