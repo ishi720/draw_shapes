@@ -77,8 +77,9 @@ function draw() {
 
         fpsCount++;
 
-        document.getElementById("meter_ratio").textContent = (isDisplayingCount/fpsCount * 100).toFixed(2) + "%";
-        document.getElementById("meter").value = (isDisplayingCount/fpsCount * 100).toFixed(2);
+        const ratio = (isDisplayingCount / fpsCount * 100).toFixed(2);
+        document.getElementById("meter_ratio").textContent = ratio + "%";
+        document.getElementById("meter").value = ratio;
 
         // 点の位置を更新し、入力ボックスの値を反映
         Object.keys(points).forEach(key => {
