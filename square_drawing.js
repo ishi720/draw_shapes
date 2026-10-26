@@ -294,6 +294,10 @@ function calculatePerpendicularEndpoints(center, radius, point) {
  *  - `intercept` {number}: y切片。直線が垂直の場合はx座標
  */
 function calculateSlopeAndIntercept(p1, p2) {
+    // 垂直な直線は傾きを Infinity とし、切片の代わりに x 座標を返す
+    if (p1.x === p2.x) {
+        return { slope: Infinity, intercept: p1.x };
+    }
     let slope = (p2.y - p1.y) / (p2.x - p1.x); // 傾きを計算
     let intercept = p2.y - slope * p2.x; // y切片を計算
     return { slope, intercept }; // 傾きとy切片をオブジェクトで返す
@@ -329,32 +333,46 @@ function findExtremeXPoints(targetPoints) {
  * @param {p5.Vector} center - 円の中心座標を表すp5.Vectorオブジェクト
  * @param {number} radius - 円の半径
  * @param {number} slope - 直線の傾き
- * @param {number} intercept - 直線の切片
+ * @param {number} intercept - 直線の切片。直線が垂直の場合はx座標
  * @param {p5.Vector} point - もともと計算して導き出した円の接点
  * @returns {p5.Vector|null} 交点が見つかればp5.Vectorオブジェクト、見つからなければnull
  */
 function calculateCircleLineIntersection(center, radius, slope, intercept, point) {
-    // 直線と円の交点
-    let a = 1 + slope * slope;
-    let b = 2 * (slope * (intercept - center.y) - center.x);
-    let c =
-      center.x * center.x +
-      (intercept - center.y) * (intercept - center.y) -
-      radius * radius;
+    let intersectionPoints = null;
 
-    // 判別式
-    let discriminant = b * b - 4 * a * c;
+    if (slope === Infinity) {
+        // 垂直な直線 x = intercept と円の交点
+        let dx = intercept - center.x;
+        let discriminant = radius * radius - dx * dx;
+        if (discriminant >= 0) {
+            const dy = sqrt(discriminant);
+            intersectionPoints = [createVector(intercept, center.y + dy), createVector(intercept, center.y - dy)];
+        }
+    } else {
+        // 直線と円の交点
+        let a = 1 + slope * slope;
+        let b = 2 * (slope * (intercept - center.y) - center.x);
+        let c =
+            center.x * center.x +
+            (intercept - center.y) * (intercept - center.y) -
+            radius * radius;
+
+        // 判別式
+        let discriminant = b * b - 4 * a * c;
+        if (discriminant >= 0) {
+            // 二次方程式の解の公式に基づいて交点を計算
+            intersectionPoints = calculateIntersectionPoints(a, b, discriminant, slope, intercept);
+        }
+    }
+
     let returnPoint = null;
-
-    if (discriminant >= 0) {
-      // 二次方程式の解の公式に基づいて交点を計算
-      const intersectionPoints = calculateIntersectionPoints(a, b, discriminant, slope, intercept);
-      // 交点を描画
-      if (dist(intersectionPoints[0].x, intersectionPoints[0].y, point.x, point.y) > 1) {
-        returnPoint = createVector(intersectionPoints[0].x, intersectionPoints[0].y);
-      } else if (dist(intersectionPoints[1].x, intersectionPoints[1].y, point.x, point.y) > 1) {
-        returnPoint = createVector(intersectionPoints[1].x, intersectionPoints[1].y);
-      }
+    if (intersectionPoints) {
+        // 元の接点とは異なる方の交点を返す
+        if (dist(intersectionPoints[0].x, intersectionPoints[0].y, point.x, point.y) > 1) {
+            returnPoint = createVector(intersectionPoints[0].x, intersectionPoints[0].y);
+        } else if (dist(intersectionPoints[1].x, intersectionPoints[1].y, point.x, point.y) > 1) {
+            returnPoint = createVector(intersectionPoints[1].x, intersectionPoints[1].y);
+        }
     }
     return returnPoint;
 }
