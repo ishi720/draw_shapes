@@ -1,3 +1,5 @@
+import p5 from 'p5';
+
 const CANVAS_SIZE = 600;
 const SPEED_RANGE = 5;
 
@@ -564,3 +566,7 @@ function draw_rect(p1, p2, p3, p4, color) {
     vertex(p4.x, p4.y);
     endShape(CLOSE);
 }
+
+// ES Module はグローバルスコープを汚さないため、
+// p5.js のグローバルモードと HTML の onclick/onchange から参照できるよう公開する
+Object.assign(window, { setup, draw, changeAutoMove, reload, changeClusterShow });

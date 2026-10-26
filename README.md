@@ -19,17 +19,25 @@
 
 ## 技術スタック
 
-- [p5.js](https://p5js.org/) v1.6.0
+- [p5.js](https://p5js.org/) v1.11（npm で管理）
+- [Vite](https://vite.dev/)（開発サーバー・ビルド）
 - HTML / CSS / JavaScript
 
 ## 使い方
 
-### ブラウザで開く
+### デモ
 
-`index.html` をブラウザで直接開くか、ローカルサーバーを使用します。
+<https://ishi720.github.io/draw_shapes/>
+
+`main` ブランチへの push で GitHub Actions がビルドし、GitHub Pages にデプロイします。
+
+### ローカルで動かす
 
 ```bash
-npx http-server
+npm install
+npm run dev      # 開発サーバーを起動
+npm run build    # dist/ にビルド
+npm run preview  # ビルド結果を確認
 ```
 
 ### 操作方法
@@ -42,9 +50,13 @@ npx http-server
 
 ```
 draw_shapes/
+├── .github/workflows/
+│   └── deploy.yml          # GitHub Pages へのデプロイ
 ├── index.html              # メインHTML（UI・コントロール）
 ├── square_drawing.js       # アプリケーションロジック（幾何学計算・描画）
 ├── style.css               # スタイルシート
+├── vite.config.js          # Vite 設定
+├── package.json
 └── README.md
 ```
 

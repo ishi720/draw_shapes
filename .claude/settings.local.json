@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /c/repos/draw_shapes log --oneline -10)"
+    ]
+  }
+}
