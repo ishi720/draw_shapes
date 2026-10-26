@@ -19,7 +19,7 @@
 
 ## 技術スタック
 
-- [p5.js](https://p5js.org/) v1.11（npm で管理）
+- [p5.js](https://p5js.org/) v2.3（npm で管理）
 - [Vite](https://vite.dev/)（開発サーバー・ビルド）
 - HTML / CSS / JavaScript
 

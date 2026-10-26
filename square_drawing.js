@@ -1,5 +1,8 @@
 import p5 from 'p5';
 
+// 本番ではフレームごとの引数チェックが重いため Friendly Error System を無効化する
+p5.disableFriendlyErrors = import.meta.env.PROD;
+
 const CANVAS_SIZE = 600;
 const SPEED_RANGE = 5;
 
